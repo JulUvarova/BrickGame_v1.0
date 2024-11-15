@@ -5,6 +5,8 @@
 
 #include "defines.h"
 
+UserAction_t get_signal();
+
 void print_rectangle(int top_y, int bottom_y, int left_x, int right_x) {
   MVADDCH(top_y, left_x, ACS_ULCORNER);
 
@@ -43,119 +45,58 @@ void print_overlay() {
   MVPRINTW(19, BOARD_M + 5, "esc - exit");
 }
 
-void print_banner() {
-  MVPRINTW(BOARD_N / 2, (BOARD_M - INTRO_MESSAGE_LEN) / 2 + 1, INTRO_MESSAGE);
+void print_banner(const char *banner) {
+  MVPRINTW(BOARD_N / 2, (BOARD_M - BANNER_LEN) / 2 + 1, "%s", banner);
 }
 
-void print_stats(GameInfo_t *gameInfo) {
-  MVPRINTW(2, BOARD_M + 12, "%d", gameInfo->level);
-  MVPRINTW(5, BOARD_M + 12, "%d", gameInfo->score);
+void print_stats(GameInfo_t gameInfo) {
+  MVPRINTW(2, BOARD_M + 12, "%d", gameInfo.level);
+  MVPRINTW(5, BOARD_M + 12, "%d", gameInfo.score);
 }
 
-void print_field(GameInfo_t *gameInfo) {
-   for (int i = 0; i < 20; ++i)
-     for (int j = 0; j < 10; ++j)
-       if (!gameInfo->field[i][j]) {
-         MVPRINTW(i + 1, j * 2 + 1, "%c", '[');
-         MVPRINTW(i + 1, j * 2 + 2, "%c", ']');
-       }
+void print_field(GameInfo_t gameInfo) {
+  for (int i = 0; i < 20; ++i)
+    for (int j = 0; j < 10; ++j)
+      if (gameInfo.field[i][j]) {
+        MVPRINTW(i + 1, j * 2 + 1, "%c", '[');
+        MVPRINTW(i + 1, j * 2 + 2, "%c", ']');
+      } else {
+        MVPRINTW(i + 1, j * 2 + 1, "%c", ' ');
+        MVPRINTW(i + 1, j * 2 + 2, "%c", ' ');
+      }
 }
 
-void print_screen(GameInfo_t *gameInfo) {
+void print_screen(GameInfo_t gameInfo) {
   print_stats(gameInfo);
-  if (gameInfo->pause)
-    print_banner();
-  else
+  if (gameInfo.pause == 1) {
+    print_banner(INTRO_MESSAGE);
+  } else if (gameInfo.pause == -1) {  //! game_over??
+    print_banner(YOU_LOSE);
+  } else if (gameInfo.level == 10) {
+    print_banner(YOU_WON);
+  } else
     print_field(gameInfo);
   refresh();
-  napms(2000);
+  napms(10);
 }
 
-// void print_board(board_t *game, player_pos *frog)
-// {
-//     print_cars(game);
-//     PRINT_FROG(frog->x, frog->y);
-// }
+UserAction_t get_signal() {
+  int user_input = GET_USER_INPUT;
+  UserAction_t act = Up;  // nothing happen
+  if (user_input == KEY__ENTER)
+    act = Pause;
+  else if (user_input == KEY_ESCAPE)
+    act = Terminate;
+  else if (user_input == KEY_SPACE)
+    act = Action;
+  else if (user_input == KEY_LEFT)
+    act = Left;
+  else if (user_input == KEY_RIGHT)
+    act = Right;
+  else if (user_input == KEY_DOWN)
+    act = Down;
+  return act;
+}
 
-// void print_cars(board_t *game)
-// {
-//     for(int i = MAP_PADDING + 1; i < BOARD_N - MAP_PADDING + 1; i++)
-//     {
-//         if (i % 2 == (MAP_PADDING + 1) % 2)
-//         {
-//             for (int j = 1; j < BOARD_M + 1; j++)
-//                 MVADDCH(i, j, ACS_BLOCK);
-//         }
-//         else
-//         {
-//             for (int j = 1; j < BOARD_M + 1; j++)
-//             {
-//                 if (game->ways[i - MAP_PADDING - 1][j - 1] == '0')
-//                     MVADDCH(i, j, ' ');
-//                 else
-//                     MVADDCH(i, j, ']');
-//             }
-//         }
-//     }
-// }
-
-// void print_finished(board_t *game)
-// {
-//     for (int i = 0; i < BOARD_M; i++)
-//     {
-//         if (game->finish[i] == '0')
-//             MVADDCH(1, i + 1, ACS_BLOCK);
-//         else
-//             MVADDCH(1, i + 1, ' ');
-//     }
-// }
-// void print_banner(game_stats_t *stats)
-// {
-//     banner_t banner;
-
-//     memset(banner.matrix, 0, (BANNER_N + 1) * (BANNER_M + 1));
-
-//     clear();
-
-//     if (!(read_banner(stats, &banner)))
-//     {
-//         for (int i = 0; i < BANNER_N; i++)
-//             for (int j = 0; j < BANNER_M; j++)
-//                 if (banner.matrix[i][j] == '#')
-//                     MVADDCH(i, j, ACS_BLOCK);
-//                 else
-//                     MVADDCH(i, j, ' ');
-//         refresh();
-//         napms(2000);
-//     }
-// }
-
-// int read_banner(game_stats_t *stats, banner_t *banner)
-// {
-//     int rc = SUCCESS;
-//     FILE *file = NULL;
-
-//     if (stats->lives)
-//         file = fopen(YOU_WON, "r");
-//     else
-//         file = fopen(YOU_LOSE, "r");
-
-//     if (file)
-//     {
-//         for (int i = 0; i < BANNER_N - 1 && !rc; i++)
-//         {
-//             if (fgets(banner->matrix[i], BANNER_M + 2, file) == NULL)
-//                 rc = ERROR;
-//             else
-//                 banner->matrix[i][strcspn(banner->matrix[i], "\n")] = '\0';
-//         }
-
-//         fclose(file);
-//     }
-//     else
-//         rc = ERROR;
-
-//     return rc;
-// }
 
 #endif

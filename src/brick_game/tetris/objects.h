@@ -12,18 +12,49 @@ typedef enum {
   Action
 } UserAction_t;
 
+typedef enum {
+  START,
+  SPAWN,
+  ACTION,
+  SHIFTING,
+  ATTACHING,
+  GAMEOVER,
+  EXIT_STATE,
+  ERROR_STATE
+} State_t;
+
 typedef struct {
+  State_t status;
+  int pause;
+
   int **field;
+
   int **next;
+  int **block;
+  int block_size;
+  int block_x;
+  int block_y;
+
   int score;
   int high_score;
   int level;
   int speed;
-  int pause;
+
+  unsigned long long start_time;
+  unsigned long long left_time;
 } GameInfo_t;
 
-void userInput(UserAction_t action, bool hold);
+static GameInfo_t game = {START, 1, NULL, NULL, NULL, 0, 0,
+                          0,     0, 0,    1,    0,    0, 0};
 
-GameInfo_t updateCurrentState();
+// typedef struct {
+//   int **field;
+//   int **next;
+//   int score;
+//   int high_score;
+//   int level;
+//   int speed;
+//   int pause;
+// } GameInfo_t;
 
 #endif
