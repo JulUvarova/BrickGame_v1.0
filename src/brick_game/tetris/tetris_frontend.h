@@ -43,6 +43,7 @@ void print_overlay() {
   MVPRINTW(17, BOARD_M + 5, "space - rotate");
   MVPRINTW(18, BOARD_M + 5, "enter - pause");
   MVPRINTW(19, BOARD_M + 5, "esc - exit");
+  MVPRINTW(BOARD_N / 2, (BOARD_M - BANNER_LEN) / 2 + 1, INTRO_MESSAGE);
 }
 
 void print_banner(const char *banner) {
@@ -52,6 +53,14 @@ void print_banner(const char *banner) {
 void print_stats(GameInfo_t gameInfo) {
   MVPRINTW(2, BOARD_M + 12, "%d", gameInfo.level);
   MVPRINTW(5, BOARD_M + 12, "%d", gameInfo.score);
+
+  if (gameInfo.next) {
+    for (int i = 0; i < 2; ++i)
+      for (int j = 0; j < 2; ++j)
+        if (gameInfo.next[i][j] != 0) {
+          MVPRINTW(i + 9, j + BOARD_M + 7, "%c", '*');
+        }
+  }
 }
 
 void print_field(GameInfo_t gameInfo) {
@@ -97,6 +106,5 @@ UserAction_t get_signal() {
     act = Down;
   return act;
 }
-
 
 #endif

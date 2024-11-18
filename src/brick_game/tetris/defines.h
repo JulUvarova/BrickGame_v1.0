@@ -6,9 +6,9 @@
     initscr();            \
     noecho();             \
     curs_set(0);          \
-    halfdelay(500);       \
+    halfdelay(10);       \
     keypad(stdscr, TRUE); \
-    timeout(time);        \
+    timeout(10);        \
   }
 
 #define GET_USER_INPUT getch()
@@ -22,8 +22,8 @@
 #define INTRO_MESSAGE "Press ENTER to start"
 #define BANNER_LEN 20
 
-#define SPEED 5
-#define SPEED_STEP 10
+#define SPEED_START 5
+#define SPEED_STEP 5
 
 #define LEVEL_MAX 10
 #define LEVEL_STEP 600

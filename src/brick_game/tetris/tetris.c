@@ -21,8 +21,9 @@ int main(void) {
     if (game.status == EXIT_STATE) stop_flag = FALSE;
     // flushinp();
   }
-  // -- end game_loop();
+  if (game.level > 9 || game.pause < 0) napms(5000);
 
+  // -- end game_loop();
   endwin();
   return 0;
 }
