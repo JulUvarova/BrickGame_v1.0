@@ -9,6 +9,8 @@
 #define FIELD_COLS 10
 #define FIELD_ROWS 20
 
+#define BLOCK_SIZE 4
+
 // работа с рекордом
 int get_hight_score();
 void set_hight_score();
@@ -24,6 +26,7 @@ void block_attaching();
 void check_overflow();
 void pin_block();
 void unpin_block();
+void fill_block(int** block, int name);
 
 // работа с матрицами
 int** create_matrix(int rows, int cols);
@@ -48,6 +51,7 @@ void game_init() {
 
   game.field = create_matrix(FIELD_ROWS, FIELD_COLS);
 
+  game.next_name = rand() % 7;
   game.score = 0;
   game.high_score = get_hight_score();
   game.level = 1;
@@ -59,35 +63,31 @@ void game_init() {
 
 void game_end() {
   // remove_matrix(game.field, FIELD_ROWS);
-  // remove_matrix(game.next, game.block_size);   // ! fake
-  // remove_matrix(game.block, game.block_size);  // ! fake
+  // remove_matrix(game.next, BLOCK_SIZE);   // ! fake
+  // remove_matrix(game.block, BLOCK_SIZE);  // ! fake
   game.status = EXIT_STATE;
 }
 
 void block_spawn() {
-  remove_matrix(game.next, game.block_size);
-  remove_matrix(game.block, game.block_size);
-  game.next = create_matrix(2, 2);
-  game.block = create_matrix(2, 2);
+  remove_matrix(game.next, BLOCK_SIZE);
+  remove_matrix(game.block, BLOCK_SIZE);
+  game.block_name = game.next_name;
+  game.next_name = rand() % 7;
+
+  game.next = create_matrix(BLOCK_SIZE, BLOCK_SIZE);
+  game.block = create_matrix(BLOCK_SIZE, BLOCK_SIZE);
 
   if (!game.next || !game.block) {
     game.status = GAMEOVER;
     return;
   }
 
-  game.block[0][0] = 1;
-  game.block[0][1] = 1;
-  game.block[1][0] = 1;
-  game.block[1][1] = 1;
+  fill_block(game.next, game.next_name);
+  fill_block(game.block, game.block_name);
 
-  game.next[0][0] = 1;
-  game.next[0][1] = 1;
-  game.next[1][0] = 1;
-  game.next[1][1] = 1;
-
-  game.block_size = 2;
   game.block_y = 0;
-  game.block_x = 4;
+  game.block_x = 3;  //! formula
+  game.rotate = 1;
 
   // error -> GAMEOVER
   if (check_attached()) {
@@ -96,6 +96,53 @@ void block_spawn() {
   } else {
     pin_block();
     game.status = ACTION;
+  }
+}
+
+void fill_block(int** block, int name) {
+  switch (name) {
+    case FIG_L:
+      block[0][1] = 1;
+      block[1][1] = 1;
+      block[2][1] = 1;
+      block[2][2] = 1;
+      break;
+    case FIG_J:
+      block[0][1] = 1;
+      block[1][1] = 1;
+      block[2][1] = 1;
+      block[2][0] = 1;
+      break;
+    case FIG_S:
+      block[1][1] = 1;
+      block[1][2] = 1;
+      block[2][1] = 1;
+      block[2][0] = 1;
+      break;
+    case FIG_Z:
+      block[1][0] = 1;
+      block[1][1] = 1;
+      block[2][1] = 1;
+      block[2][2] = 1;
+      break;
+    case FIG_I:
+      block[1][0] = 1;
+      block[1][1] = 1;
+      block[1][2] = 1;
+      block[1][3] = 1;
+      break;
+    case FIG_T:
+      block[1][0] = 1;
+      block[1][1] = 1;
+      block[1][2] = 1;
+      block[1][3] = 1;
+      break;
+    case FIG_O:
+      block[1][0] = 1;
+      block[1][1] = 1;
+      block[1][2] = 1;
+      block[2][1] = 1;
+      break;
   }
 }
 
@@ -209,7 +256,7 @@ void update_score(int count) {
 }
 
 void update_level() {
-  game.level = game.score / LEVEL_STEP;
+  game.level = game.score / LEVEL_STEP + 1;
   if (game.level >= LEVEL_MAX) {
     game.level = LEVEL_MAX;
     game.status = GAMEOVER;
@@ -254,8 +301,7 @@ void block_moving(UserAction_t act) {
       break;
     case Down:
     case Up:
-      shift_down();
-      // fall_down();
+      fall_down();
       break;
     case Action:
       rotate();  // matrix
@@ -311,12 +357,18 @@ void shift_down() {
 
 int check_attached() {
   int is_attached = FALSE;
-  for (int i = 0; i < game.block_size && is_attached == FALSE; ++i) {
-    // while (i + game.block_y < 0) ++i;
-    if (game.block_y + game.block_size > FIELD_ROWS) is_attached = TRUE;
-    for (int j = 0; j < game.block_size && is_attached == FALSE; ++j) {
-      if (game.block_x + i < 0 || game.block_x + j > FIELD_COLS)
+  for (int i = 0; i < BLOCK_SIZE && is_attached == FALSE; ++i) {
+    // if (game.block_y + BLOCK_SIZE > FIELD_ROWS) is_attached = TRUE;
+    for (int j = 0; j < BLOCK_SIZE && is_attached == FALSE; ++j) {
+      if (game.block_y + BLOCK_SIZE > FIELD_ROWS && game.block[i][j] != 0) is_attached = TRUE;
+
+      if ((game.block_x + j < 0 || game.block_x + j > FIELD_COLS) &&
+          game.field[game.block_y + i][game.block_x + j] != 0)
         is_attached = TRUE;
+      // if (game.block_x + i < 0 || game.block_x + j > FIELD_COLS)
+      //   is_attached = TRUE;
+      // if (game.field[game.block_y + i][game.block_x + j] != 0)
+      //   is_attached = TRUE;
       if (game.field[game.block_y + i][game.block_x + j] != 0)
         is_attached = TRUE;
     }
@@ -325,8 +377,8 @@ int check_attached() {
 }
 
 void unpin_block() {
-  for (int i = 0; i < game.block_size; ++i) {
-    for (int j = 0; j < game.block_size; ++j) {
+  for (int i = 0; i < BLOCK_SIZE; ++i) {
+    for (int j = 0; j < BLOCK_SIZE; ++j) {
       if (game.block[i][j] != 0)
         game.field[game.block_y + i][game.block_x + j] = 0;
     }
@@ -334,8 +386,8 @@ void unpin_block() {
 }
 
 void pin_block() {
-  for (int i = 0; i < game.block_size; ++i) {
-    for (int j = 0; j < game.block_size; ++j) {
+  for (int i = 0; i < BLOCK_SIZE; ++i) {
+    for (int j = 0; j < BLOCK_SIZE; ++j) {
       if (game.block[i][j] != 0)
         game.field[game.block_y + i][game.block_x + j] = game.block[i][j];
     }

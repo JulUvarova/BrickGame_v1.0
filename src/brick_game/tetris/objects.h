@@ -29,11 +29,13 @@ typedef struct {
 
   int **field;
 
+  int next_name;
   int **next;
+  int block_name;
   int **block;
-  int block_size;
   int block_x;
   int block_y;
+  int rotate;
 
   int score;
   int high_score;
@@ -44,8 +46,10 @@ typedef struct {
   unsigned long long left_time;
 } GameInfo_t;
 
-static GameInfo_t game = {START, 1, NULL, NULL, NULL, 0, 0,
-                          0,     0, 0,    1,    0,    0, 0};
+typedef enum { FIG_J, FIG_L, FIG_O, FIG_I, FIG_Z, FIG_S, FIG_T } Block_name_t;
+
+static GameInfo_t game = {START, 1, NULL, 0, NULL, 0, NULL, 0,
+                          0,     0, 0,    0, 1,    0, 0,    0};
 
 // typedef struct {
 //   int **field;
