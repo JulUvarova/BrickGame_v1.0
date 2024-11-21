@@ -58,17 +58,10 @@ void print_stats(GameInfo_t gameInfo) {
     for (int i = 0; i < 4; ++i)
       for (int j = 0; j < 4; ++j)
         if (gameInfo.next[i][j] != 0) {
-          MVPRINTW(i + 9, j + BOARD_M + 11 , "%c", 'x');
-          // MVPRINTW(i + 10, j + BOARD_M + 11 + 1, "%c", ']');
-        }  else {
-          MVPRINTW(i + 9, j + BOARD_M + 11 , "%c", ' ');
+          MVPRINTW(i + 9, j + BOARD_M + 11, "%c", 'X');
+        } else {
+          MVPRINTW(i + 9, j + BOARD_M + 11, "%c", ' ');
         }
-    //   MVPRINTW(i + 1, j * 2 + 1, "%c", ' ');
-    //   MVPRINTW(i + 1, j * 2 + 2, "%c", ' ');
-    // }
-    //  {
-    //     MVPRINTW(i + 9, j + BOARD_M + 7, "%c", '*');
-    //   }
   }
 }
 

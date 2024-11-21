@@ -34,7 +34,7 @@ void remove_matrix(int** matrix, int rows);
 int check_row();
 void delete_row(int row);
 
-int** rotate_matrix(int** old, int rows, int cols);
+void rotate_matrix(int** old);
 void shift_left();
 void shift_right();
 void fall_down();
@@ -138,10 +138,10 @@ void fill_block(int** block, int name) {
       block[1][3] = 1;
       break;
     case FIG_O:
-      block[1][0] = 1;
       block[1][1] = 1;
       block[1][2] = 1;
       block[2][1] = 1;
+      block[2][2] = 1;
       break;
   }
 }
@@ -157,16 +157,24 @@ int** create_matrix(int rows, int cols) {
   return matrix;
 }
 
-int** rotate_matrix(int** old, int rows, int cols) {
-  int** new = create_matrix(rows, cols);
+void rotate_matrix(int** old) {
+  int** new = create_matrix(BLOCK_SIZE, BLOCK_SIZE);
   if (new) {
-    for (int i = 0; i < rows; ++i) {
-      for (int j = 0; j < cols; ++j) {
-        new[j][i] = old[i][j];
+    int size = BLOCK_SIZE - 1;
+    if (game.block_name == FIG_I) ++size;
+
+    for (int i = 0; i < size; ++i) {
+      for (int j = 0; j < size; ++j) {
+        new[j][size - 1 - i] = game.block[i][j];
       }
     }
+    for (int i = 0; i < BLOCK_SIZE; ++i) {
+      for (int j = 0; j < BLOCK_SIZE; ++j) {
+        old[i][j] = new[i][j];
+      }
+    }
+    remove_matrix(new, BLOCK_SIZE);
   }
-  return new;
 }
 
 void remove_matrix(int** matrix, int rows) {
@@ -215,6 +223,7 @@ void userInput(UserAction_t act, bool) {
 }
 
 void block_attaching() {
+  game.status = SPAWN;
   int count = check_row();
   update_score(count);
   update_level();
@@ -301,7 +310,8 @@ void block_moving(UserAction_t act) {
       break;
     case Down:
     case Up:
-      fall_down();
+      shift_down();
+      // fall_down();
       break;
     case Action:
       rotate();  // matrix
@@ -312,10 +322,26 @@ void block_moving(UserAction_t act) {
 }
 
 void rotate() {
-  if (check_attached())
-    game.status = ATTACHING;
-  else
-    game.status = ACTION;
+  if (game.block_name == FIG_O) return;
+  unpin_block();
+
+  int** rotated = create_matrix(BLOCK_SIZE, BLOCK_SIZE);
+  for (int i = 0; i < game.rotate; ++i) rotate_matrix(rotated);
+  if (game.block_name == FIG_I || game.block_name == FIG_S ||
+      game.block_name == FIG_Z)
+    game.rotate = (game.rotate == 1) ? 3 : 1;
+
+  int** tmp = game.block;
+  game.block = rotated;
+
+  if (check_attached()) {
+    remove_matrix(game.block, BLOCK_SIZE);
+    game.block = tmp;
+  } else
+    remove_matrix(tmp, BLOCK_SIZE);
+  pin_block();
+
+  game.status = ACTION;
 }
 
 void shift_left() {
@@ -358,18 +384,12 @@ void shift_down() {
 int check_attached() {
   int is_attached = FALSE;
   for (int i = 0; i < BLOCK_SIZE && is_attached == FALSE; ++i) {
-    // if (game.block_y + BLOCK_SIZE > FIELD_ROWS) is_attached = TRUE;
+    if (game.block_y + i < 0) continue;
     for (int j = 0; j < BLOCK_SIZE && is_attached == FALSE; ++j) {
-      if (game.block_y + BLOCK_SIZE > FIELD_ROWS && game.block[i][j] != 0) is_attached = TRUE;
-
-      if ((game.block_x + j < 0 || game.block_x + j > FIELD_COLS) &&
-          game.field[game.block_y + i][game.block_x + j] != 0)
-        is_attached = TRUE;
-      // if (game.block_x + i < 0 || game.block_x + j > FIELD_COLS)
-      //   is_attached = TRUE;
-      // if (game.field[game.block_y + i][game.block_x + j] != 0)
-      //   is_attached = TRUE;
-      if (game.field[game.block_y + i][game.block_x + j] != 0)
+      if (game.block[i][j] != 0 &&
+          (game.block_x + j < 0 || game.block_x + j > FIELD_COLS - 1 ||
+           game.block_y + i > FIELD_ROWS - 1 ||
+           game.field[i + game.block_y][j + game.block_x]))
         is_attached = TRUE;
     }
   }
@@ -392,7 +412,6 @@ void pin_block() {
         game.field[game.block_y + i][game.block_x + j] = game.block[i][j];
     }
   }
-  game.status = SPAWN;
 }
 
 void fall_down() {
