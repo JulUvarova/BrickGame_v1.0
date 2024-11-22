@@ -33,8 +33,9 @@ int** create_matrix(int rows, int cols);
 void remove_matrix(int** matrix, int rows);
 int check_row();
 void delete_row(int row);
+int** copy_matrix(int** src, int size);
 
-void rotate_matrix(int** old);
+void rotate_matrix();
 void shift_left();
 void shift_right();
 void fall_down();
@@ -87,7 +88,8 @@ void block_spawn() {
 
   game.block_y = 0;
   game.block_x = 3;  //! formula
-  game.rotate = 1;
+
+  game.rotate = (game.block_name == FIG_S || game.block_name == FIG_Z) ? 3 : 1;
 
   // error -> GAMEOVER
   if (check_attached()) {
@@ -108,40 +110,40 @@ void fill_block(int** block, int name) {
       block[2][2] = 1;
       break;
     case FIG_J:
-      block[0][1] = 1;
-      block[1][1] = 1;
-      block[2][1] = 1;
-      block[2][0] = 1;
+      block[0][1] = 2;
+      block[1][1] = 2;
+      block[2][1] = 2;
+      block[2][0] = 2;
       break;
     case FIG_S:
-      block[1][1] = 1;
-      block[1][2] = 1;
-      block[2][1] = 1;
-      block[2][0] = 1;
+      block[1][1] = 3;
+      block[1][2] = 3;
+      block[2][1] = 3;
+      block[2][0] = 3;
       break;
     case FIG_Z:
-      block[1][0] = 1;
-      block[1][1] = 1;
-      block[2][1] = 1;
-      block[2][2] = 1;
+      block[1][0] = 4;
+      block[1][1] = 4;
+      block[2][1] = 4;
+      block[2][2] = 4;
       break;
     case FIG_I:
-      block[1][0] = 1;
-      block[1][1] = 1;
-      block[1][2] = 1;
-      block[1][3] = 1;
+      block[1][0] = 5;
+      block[1][1] = 5;
+      block[1][2] = 5;
+      block[1][3] = 5;
       break;
     case FIG_T:
-      block[1][0] = 1;
-      block[1][1] = 1;
-      block[1][2] = 1;
-      block[1][3] = 1;
+      block[1][0] = 6;
+      block[1][1] = 6;
+      block[1][2] = 6;
+      block[0][1] = 6;
       break;
     case FIG_O:
-      block[1][1] = 1;
-      block[1][2] = 1;
-      block[2][1] = 1;
-      block[2][2] = 1;
+      block[1][1] = 7;
+      block[1][2] = 7;
+      block[2][1] = 7;
+      block[2][2] = 7;
       break;
   }
 }
@@ -157,7 +159,19 @@ int** create_matrix(int rows, int cols) {
   return matrix;
 }
 
-void rotate_matrix(int** old) {
+int** copy_matrix(int** src, int size) {
+  int** dest = create_matrix(size, size);
+  if (dest) {
+    for (int i = 0; i < BLOCK_SIZE; ++i) {
+      for (int j = 0; j < BLOCK_SIZE; ++j) {
+        dest[i][j] = src[i][j];
+      }
+    }
+  }
+  return dest;
+}
+
+void rotate_matrix() {
   int** new = create_matrix(BLOCK_SIZE, BLOCK_SIZE);
   if (new) {
     int size = BLOCK_SIZE - 1;
@@ -170,7 +184,7 @@ void rotate_matrix(int** old) {
     }
     for (int i = 0; i < BLOCK_SIZE; ++i) {
       for (int j = 0; j < BLOCK_SIZE; ++j) {
-        old[i][j] = new[i][j];
+        game.block[i][j] = new[i][j];
       }
     }
     remove_matrix(new, BLOCK_SIZE);
@@ -323,22 +337,21 @@ void block_moving(UserAction_t act) {
 
 void rotate() {
   if (game.block_name == FIG_O) return;
+
   unpin_block();
-
-  int** rotated = create_matrix(BLOCK_SIZE, BLOCK_SIZE);
-  for (int i = 0; i < game.rotate; ++i) rotate_matrix(rotated);
-  if (game.block_name == FIG_I || game.block_name == FIG_S ||
-      game.block_name == FIG_Z)
-    game.rotate = (game.rotate == 1) ? 3 : 1;
-
   int** tmp = game.block;
-  game.block = rotated;
+  game.block = copy_matrix(tmp, BLOCK_SIZE);
+
+  for (int i = 0; i < game.rotate; ++i) rotate_matrix();
 
   if (check_attached()) {
     remove_matrix(game.block, BLOCK_SIZE);
     game.block = tmp;
-  } else
+  } else if (game.block_name == FIG_I || game.block_name == FIG_S ||
+             game.block_name == FIG_Z) {
+    game.rotate = (game.rotate == 1) ? 3 : 1;
     remove_matrix(tmp, BLOCK_SIZE);
+  }
   pin_block();
 
   game.status = ACTION;
@@ -349,10 +362,8 @@ void shift_left() {
   game.block_x--;
   if (check_attached()) {
     game.block_x++;
-    pin_block();
-  } else {
-    pin_block();
   }
+  pin_block();
   game.status = ACTION;
 }
 
@@ -361,10 +372,8 @@ void shift_right() {
   game.block_x++;
   if (check_attached()) {
     game.block_x--;
-    pin_block();
-  } else {
-    pin_block();
   }
+  pin_block();
   game.status = ACTION;
 }
 
@@ -373,12 +382,11 @@ void shift_down() {
   game.block_y++;
   if (check_attached()) {
     game.block_y--;
-    pin_block();
     game.status = ATTACHING;
   } else {
-    pin_block();
     game.status = ACTION;
   }
+  pin_block();
 }
 
 int check_attached() {
@@ -425,6 +433,7 @@ int get_hight_score() {
   FILE* file = fopen(HIGH_SCORE_MEM, "r");
   if (file) {
     fscanf(file, "%d", &game.high_score);
+    fclose(file);
   }
   return result;
 }

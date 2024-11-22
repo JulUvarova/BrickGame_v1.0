@@ -46,31 +46,41 @@ void print_overlay() {
   MVPRINTW(BOARD_N / 2, (BOARD_M - BANNER_LEN) / 2 + 1, INTRO_MESSAGE);
 }
 
-void print_banner(const char *banner) {
+void print_banner(const char* banner) {
   MVPRINTW(BOARD_N / 2, (BOARD_M - BANNER_LEN) / 2 + 1, "%s", banner);
 }
 
 void print_stats(GameInfo_t gameInfo) {
   MVPRINTW(2, BOARD_M + 12, "%d", gameInfo.level);
   MVPRINTW(5, BOARD_M + 12, "%d", gameInfo.score);
-
-  if (gameInfo.next) {
-    for (int i = 0; i < 4; ++i)
-      for (int j = 0; j < 4; ++j)
-        if (gameInfo.next[i][j] != 0) {
-          MVPRINTW(i + 9, j + BOARD_M + 11, "%c", 'X');
-        } else {
-          MVPRINTW(i + 9, j + BOARD_M + 11, "%c", ' ');
-        }
-  }
 }
 
-void print_field(GameInfo_t gameInfo) {
+void print_next(int** next) {
+  if (!next) return;
+
+  for (int i = 0; i < 4; ++i)
+    for (int j = 0; j < 4; ++j)
+      if (next[i][j]) {
+        if (has_colors()) attron(COLOR_PAIR(next[i][j]));
+        MVPRINTW(i + 9, j * 2 + BOARD_M + 10, "%c", '[');
+        MVPRINTW(i + 9, j * 2 + BOARD_M + 10 + 1, "%c", ']');
+        if (has_colors()) attroff(COLOR_PAIR(next[i][j]));
+      } else {
+        MVPRINTW(i + 9, j * 2 + BOARD_M + 10, "%c", ' ');
+        MVPRINTW(i + 9, j * 2 + BOARD_M + 10 + 1, "%c", ' ');
+      }
+}
+
+void print_field(int** field) {
+  if (!field) return;
+
   for (int i = 0; i < 20; ++i)
     for (int j = 0; j < 10; ++j)
-      if (gameInfo.field[i][j]) {
+      if (field[i][j]) {
+        if (has_colors()) attron(COLOR_PAIR(field[i][j]));
         MVPRINTW(i + 1, j * 2 + 1, "%c", '[');
         MVPRINTW(i + 1, j * 2 + 2, "%c", ']');
+        if (has_colors()) attroff(COLOR_PAIR(field[i][j]));
       } else {
         MVPRINTW(i + 1, j * 2 + 1, "%c", ' ');
         MVPRINTW(i + 1, j * 2 + 2, "%c", ' ');
@@ -85,8 +95,10 @@ void print_screen(GameInfo_t gameInfo) {
     print_banner(YOU_LOSE);
   } else if (gameInfo.level == 10) {
     print_banner(YOU_WON);
-  } else
-    print_field(gameInfo);
+  } else {
+    print_next(gameInfo.next);
+    print_field(gameInfo.field);
+  }
   refresh();
   napms(10);
 }

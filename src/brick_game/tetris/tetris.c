@@ -6,26 +6,32 @@
 #include "tetris_frontend.h"
 
 int check_end(GameInfo_t* game_info);
+void game_loop();
 
 int main(void) {
   WIN_INIT(50);
+  if (has_colors()) {
+    COLOR_INIT();
+  }
   setlocale(LC_ALL, "");
   print_overlay();
 
-  // -- game_loop();
+  game_loop();
+  
+  while (GET_USER_INPUT != KEY__ENTER) {
+  }
+
+  endwin();
+  return 0;
+}
+
+void game_loop() {
   bool stop_flag = TRUE;
   while (stop_flag) {
     userInput(get_signal(), false);
     print_screen(updateCurrentState());
-
     if (game.status == EXIT_STATE) stop_flag = FALSE;
-    // flushinp();
   }
-  if (game.level > 9 || game.pause < 0) napms(5000);
-
-  // -- end game_loop();
-  endwin();
-  return 0;
 }
 
 int check_end(GameInfo_t* game_info) {
