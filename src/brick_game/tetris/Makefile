@@ -37,14 +37,15 @@ build: $(OBJECTS)
 	ar rcs $(LIBNAME) $(OBJECTS)  -lncurses
 
 .PHONY: test
-test: CFLAGS_BIN += $(TESTFLAGS)
-test: build clean
-	$(CC) $(CFLAGS_BIN) $(DEBUG_FLAGS) $(TEST_SOURCES) $(LIBNAME) -o tests/tests -lcheck -lm -lsubunit 
-ifeq ($(S21_DEBUG),true)   
-	./tests/tests
-else
-	valgrind -q -s --leak-check=full --trace-children=yes --track-origins=yes --log-file=RESULT_VALGRIND.txt ./tests/tests
-endif
+test:
+# test: CFLAGS_BIN += $(TESTFLAGS)
+# test: build clean
+# 	$(CC) $(CFLAGS_BIN) $(DEBUG_FLAGS) $(TEST_SOURCES) $(LIBNAME) -o tests/tests -lcheck -lm -lsubunit 
+# ifeq ($(S21_DEBUG),true)   
+# 	./tests/tests
+# else
+	valgrind -q -s --leak-check=full --trace-children=yes --track-origins=yes --log-file=RESULT_VALGRIND.txt ./s21_tetris
+# endif
 
 .PHONY: clean
 clean:

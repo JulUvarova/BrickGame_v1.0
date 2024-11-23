@@ -17,9 +17,6 @@ int main(void) {
   print_overlay();
 
   game_loop();
-  
-  while (GET_USER_INPUT != KEY__ENTER) {
-  }
 
   endwin();
   return 0;
@@ -28,8 +25,8 @@ int main(void) {
 void game_loop() {
   bool stop_flag = TRUE;
   while (stop_flag) {
-    userInput(get_signal(), false);
     print_screen(updateCurrentState());
+    userInput(get_signal(), false);
     if (game.status == EXIT_STATE) stop_flag = FALSE;
   }
 }

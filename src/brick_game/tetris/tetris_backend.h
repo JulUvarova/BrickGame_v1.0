@@ -2,6 +2,7 @@
 #define TETRIS_BACK_H
 
 #include <stdlib.h>
+#include <time.h>
 
 #include "defines.h"
 #include "objects.h"
@@ -16,6 +17,8 @@ int get_hight_score();
 void set_hight_score();
 void update_score(int count);
 void update_level();
+void check_time();
+unsigned long long get_time();
 
 // работа со статусом
 void game_init();
@@ -42,6 +45,7 @@ void fall_down();
 void shift_down();
 void rotate();
 int check_attached();
+void rotation_prepare(int* is_shift_right, int* is_shift_left);
 
 void userInput(UserAction_t action, bool);
 GameInfo_t updateCurrentState();
@@ -58,14 +62,14 @@ void game_init() {
   game.level = 1;
   game.speed = SPEED_START;
 
-  game.start_time = 0;
+  // game.start_time = get_time();
   game.left_time = 0;
 }
 
 void game_end() {
-  // remove_matrix(game.field, FIELD_ROWS);
-  // remove_matrix(game.next, BLOCK_SIZE);   // ! fake
-  // remove_matrix(game.block, BLOCK_SIZE);  // ! fake
+  remove_matrix(game.field, FIELD_ROWS);
+  remove_matrix(game.next, BLOCK_SIZE);
+  remove_matrix(game.block, BLOCK_SIZE);
   game.status = EXIT_STATE;
 }
 
@@ -104,46 +108,25 @@ void block_spawn() {
 void fill_block(int** block, int name) {
   switch (name) {
     case FIG_L:
-      block[0][1] = 1;
-      block[1][1] = 1;
-      block[2][1] = 1;
-      block[2][2] = 1;
+      FILL_L(block);
       break;
     case FIG_J:
-      block[0][1] = 2;
-      block[1][1] = 2;
-      block[2][1] = 2;
-      block[2][0] = 2;
+      FILL_J(block);
       break;
     case FIG_S:
-      block[1][1] = 3;
-      block[1][2] = 3;
-      block[2][1] = 3;
-      block[2][0] = 3;
+      FILL_S(block);
       break;
     case FIG_Z:
-      block[1][0] = 4;
-      block[1][1] = 4;
-      block[2][1] = 4;
-      block[2][2] = 4;
+      FILL_Z(block);
       break;
     case FIG_I:
-      block[1][0] = 5;
-      block[1][1] = 5;
-      block[1][2] = 5;
-      block[1][3] = 5;
+      FILL_I(block);
       break;
     case FIG_T:
-      block[1][0] = 6;
-      block[1][1] = 6;
-      block[1][2] = 6;
-      block[0][1] = 6;
+      FILL_T(block);
       break;
     case FIG_O:
-      block[1][1] = 7;
-      block[1][2] = 7;
-      block[2][1] = 7;
-      block[2][2] = 7;
+      FILL_O(block);
       break;
   }
 }
@@ -206,8 +189,8 @@ void userInput(UserAction_t act, bool) {
   if (game.pause && act != Terminate) return;
 
   if (act == Terminate) game.status = GAMEOVER;
-
-  // if (act == Up) game.status = SHIFTING;
+  if (!act) game.status = SHIFTING;
+  // check_time();
 
   switch (game.status) {
     case START:
@@ -234,6 +217,21 @@ void userInput(UserAction_t act, bool) {
     default:
       break;
   }
+}
+
+void check_time() {
+  if ((get_time() - game.start_time) > SPEED_START) {
+    game.status = SHIFTING;
+    game.start_time = get_time();
+  }
+}
+
+unsigned long long get_time() {
+  unsigned long result = 0;
+  struct timespec now = {0};
+  if (timespec_get(&now, TIME_UTC) != 0)
+    result = (unsigned long long)now.tv_sec * 1000 + now.tv_nsec / 1000000;
+  return result;
 }
 
 void block_attaching() {
@@ -279,12 +277,13 @@ void update_score(int count) {
 }
 
 void update_level() {
+  int old_level = game.level;
   game.level = game.score / LEVEL_STEP + 1;
   if (game.level >= LEVEL_MAX) {
     game.level = LEVEL_MAX;
     game.status = GAMEOVER;
   }
-  game.speed = SPEED_START + SPEED_STEP * game.level;
+  if (game.level > old_level) game.speed -= SPEED_STEP;
 }
 
 int check_row() {
@@ -323,12 +322,13 @@ void block_moving(UserAction_t act) {
       shift_right();
       break;
     case Down:
-    case Up:
       shift_down();
-      // fall_down();
+      break;
+    case Up:
+      rotate();
       break;
     case Action:
-      rotate();  // matrix
+      fall_down();
       break;
     default:
       break;
@@ -344,7 +344,15 @@ void rotate() {
 
   for (int i = 0; i < game.rotate; ++i) rotate_matrix();
 
+  int is_shift_right = FALSE;
+  int is_shift_left = FALSE;
+  rotation_prepare(&is_shift_right, &is_shift_left);
+  if (is_shift_right) ++game.block_x;
+  if (is_shift_left) --game.block_x;
+
   if (check_attached()) {
+    if (is_shift_right) --game.block_x;
+    if (is_shift_left) ++game.block_x;
     remove_matrix(game.block, BLOCK_SIZE);
     game.block = tmp;
   } else if (game.block_name == FIG_I || game.block_name == FIG_S ||
@@ -355,6 +363,18 @@ void rotate() {
   pin_block();
 
   game.status = ACTION;
+}
+void rotation_prepare(int* is_shift_right, int* is_shift_left) {
+  if (game.block_x < 0) {
+    for (int i = 0; i < BLOCK_SIZE; ++i) {
+      if (game.block[i][0] != 0) *is_shift_right = TRUE;
+    }
+  }
+  if (game.block_x > FIELD_COLS - 1) {
+    for (int i = 0; i < BLOCK_SIZE; ++i) {
+      if (game.block[i][0] != 0) *is_shift_left = TRUE;
+    }
+  }
 }
 
 void shift_left() {

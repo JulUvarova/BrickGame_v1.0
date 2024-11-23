@@ -38,9 +38,10 @@ void print_overlay() {
   MVPRINTW(2, BOARD_M + 5, "LEVEL: ");
   MVPRINTW(5, BOARD_M + 5, "SCORE: ");
   MVPRINTW(8, BOARD_M + 5, "NEXT: ");
-  MVPRINTW(15, BOARD_M + 5, "MANAGE:");
-  MVPRINTW(16, BOARD_M + 5, "arrows - move");
-  MVPRINTW(17, BOARD_M + 5, "space - rotate");
+  // MVPRINTW(15, BOARD_M + 5, "MANAGE:");
+  MVPRINTW(15, BOARD_M + 5, "< v > - move");
+  MVPRINTW(16, BOARD_M + 5, " ^ - rotate");
+  MVPRINTW(17, BOARD_M + 5, "space - fall");
   MVPRINTW(18, BOARD_M + 5, "enter - pause");
   MVPRINTW(19, BOARD_M + 5, "esc - exit");
   MVPRINTW(BOARD_N / 2, (BOARD_M - BANNER_LEN) / 2 + 1, INTRO_MESSAGE);
@@ -105,11 +106,13 @@ void print_screen(GameInfo_t gameInfo) {
 
 UserAction_t get_signal() {
   int user_input = GET_USER_INPUT;
-  UserAction_t act = Up;  // nothing happen
+  UserAction_t act = 0;  // nothing happen
   if (user_input == KEY__ENTER)
     act = Pause;
   else if (user_input == KEY_ESCAPE)
     act = Terminate;
+  else if (user_input == KEY_UP)
+    act = Up;
   else if (user_input == KEY_SPACE)
     act = Action;
   else if (user_input == KEY_LEFT)

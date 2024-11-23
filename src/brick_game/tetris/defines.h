@@ -34,16 +34,6 @@
 #define INTRO_MESSAGE "Press ENTER to start"
 #define BANNER_LEN 20
 
-#define SPEED_START 5
-#define SPEED_STEP 5
-
-#define LEVEL_MAX 10
-#define LEVEL_STEP 600
-#define COST_ONE_LINE 100
-#define COST_TWO_LINE 300
-#define COST_THREE_LINE 700
-#define COST_FOUR_LINE 1500
-
 #define BOARDS_BEGIN 2
 
 #define BOARD_N 20
