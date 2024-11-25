@@ -1,28 +1,21 @@
-#ifndef TETRIS_FRONT_H
-#define TETRIS_FRONT_H
-
-#include <string.h>
-
-#include "defines.h"
-
-UserAction_t get_signal();
+#include "frontend.h"
 
 void print_rectangle(int top_y, int bottom_y, int left_x, int right_x) {
   MVADDCH(top_y, left_x, ACS_ULCORNER);
 
   int i = left_x + 1;
 
-  for (; i < right_x; i++) MVADDCH(top_y, i, ACS_HLINE);
+  for (; i < right_x; ++i) MVADDCH(top_y, i, ACS_HLINE);
   MVADDCH(top_y, i, ACS_URCORNER);
 
-  for (int i = top_y + 1; i < bottom_y; i++) {
+  for (int i = top_y + 1; i < bottom_y; ++i) {
     MVADDCH(i, left_x, ACS_VLINE);
     MVADDCH(i, right_x, ACS_VLINE);
   }
 
   MVADDCH(bottom_y, left_x, ACS_LLCORNER);
   i = left_x + 1;
-  for (; i < right_x; i++) MVADDCH(bottom_y, i, ACS_HLINE);
+  for (; i < right_x; ++i) MVADDCH(bottom_y, i, ACS_HLINE);
   MVADDCH(bottom_y, i, ACS_LRCORNER);
 }
 
@@ -38,7 +31,6 @@ void print_overlay() {
   MVPRINTW(2, BOARD_M + 5, "LEVEL: ");
   MVPRINTW(5, BOARD_M + 5, "SCORE: ");
   MVPRINTW(8, BOARD_M + 5, "NEXT: ");
-  // MVPRINTW(15, BOARD_M + 5, "MANAGE:");
   MVPRINTW(15, BOARD_M + 5, "< v > - move");
   MVPRINTW(16, BOARD_M + 5, " ^ - rotate");
   MVPRINTW(17, BOARD_M + 5, "space - fall");
@@ -52,7 +44,7 @@ void print_banner(const char* banner) {
 }
 
 void print_stats(GameInfo_t gameInfo) {
-  MVPRINTW(2, BOARD_M + 12, "%d", gameInfo.level);
+  MVPRINTW(2, BOARD_M + 12, "%d", gameInfo.pause);
   MVPRINTW(5, BOARD_M + 12, "%d", gameInfo.score);
 }
 
@@ -83,7 +75,9 @@ void print_field(int** field) {
         MVPRINTW(i + 1, j * 2 + 2, "%c", ']');
         if (has_colors()) attroff(COLOR_PAIR(field[i][j]));
       } else {
-        MVPRINTW(i + 1, j * 2 + 1, "%c", ' ');
+        if (has_colors()) attron(COLOR_PAIR(8));
+        MVPRINTW(i + 1, j * 2 + 1, "%c", '.');
+        if (has_colors()) attroff(COLOR_PAIR(8));
         MVPRINTW(i + 1, j * 2 + 2, "%c", ' ');
       }
 }
@@ -92,9 +86,9 @@ void print_screen(GameInfo_t gameInfo) {
   print_stats(gameInfo);
   if (gameInfo.pause == 1) {
     print_banner(INTRO_MESSAGE);
-  } else if (gameInfo.pause == -1) {  //! game_over??
+  } else if (gameInfo.pause == -1) {
     print_banner(YOU_LOSE);
-  } else if (gameInfo.level == 10) {
+  } else if (gameInfo.pause == -3) {
     print_banner(YOU_WON);
   } else {
     print_next(gameInfo.next);
@@ -123,5 +117,3 @@ UserAction_t get_signal() {
     act = Down;
   return act;
 }
-
-#endif

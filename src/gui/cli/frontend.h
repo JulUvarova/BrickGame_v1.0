@@ -1,17 +1,21 @@
-#ifndef DEFINES_H
-#define DEFINES_H
+#ifndef FRONT_H
+#define FRONT_H
 
-#define WIN_INIT(time)                          \
-  {                                             \
-    initscr();                                  \
-    noecho();                                   \
-    curs_set(0);                                \
-    halfdelay(10);                              \
-    keypad(stdscr, TRUE);                       \
-    timeout(10);                                \
+#include <ncurses.h>
+#include <string.h>
+
+#include "../../common_objects/objects.h"
+
+#define WIN_INIT(time)    \
+  {                       \
+    initscr();            \
+    noecho();             \
+    curs_set(0);          \
+    keypad(stdscr, TRUE); \
+    timeout(10);          \
   }
 
-#define COLOR_INIT()                          \
+#define COLOR_INIT()                            \
   {                                             \
     start_color();                              \
     init_pair(1, COLOR_YELLOW, COLOR_YELLOW);   \
@@ -21,6 +25,7 @@
     init_pair(5, COLOR_RED, COLOR_RED);         \
     init_pair(6, COLOR_BLUE, COLOR_BLUE);       \
     init_pair(7, COLOR_WHITE, COLOR_WHITE);     \
+    init_pair(8, COLOR_CYAN, COLOR_BLACK);     \
   }
 
 #define GET_USER_INPUT getch()
@@ -45,6 +50,20 @@
 #define KEY_SPACE ' '
 #define KEY__ENTER '\n'
 
-#define HIGH_SCORE_MEM "record.txt"
+UserAction_t get_signal();
+
+void print_rectangle(int top_y, int bottom_y, int left_x, int right_x);
+
+void print_overlay();
+
+void print_banner(const char* banner);
+
+void print_stats(GameInfo_t gameInfo);
+
+void print_next(int** next);
+
+void print_field(int** field);
+
+void print_screen(GameInfo_t gameInfo);
 
 #endif
