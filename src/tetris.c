@@ -1,7 +1,7 @@
 #include <locale.h>
 
-#include "gui/cli/frontend.h"
 #include "brick_game/tetris/tetris_backend.h"
+#include "gui/cli/frontend.h"
 
 void game_loop();
 
@@ -26,6 +26,7 @@ void game_loop() {
     GameInfo_t game_info = updateCurrentState();
     print_screen(game_info);
     userInput(get_signal(), 0);
+    game_info = updateCurrentState();
     if (game_info.pause == -2) stop_flag = FALSE;
   }
 }
