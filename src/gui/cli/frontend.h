@@ -25,7 +25,7 @@
     init_pair(5, COLOR_RED, COLOR_RED);         \
     init_pair(6, COLOR_BLUE, COLOR_BLUE);       \
     init_pair(7, COLOR_WHITE, COLOR_WHITE);     \
-    init_pair(8, COLOR_CYAN, COLOR_BLACK);     \
+    init_pair(8, COLOR_CYAN, COLOR_BLACK);      \
   }
 
 #define GET_USER_INPUT getch()

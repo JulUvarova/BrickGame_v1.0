@@ -3,7 +3,10 @@
 int main(void) {
   int number_failed = 0;
 
-  number_failed += sest();
+  number_failed += test_recording();
+  number_failed += test_status();
+  number_failed += test_matrix();
+  number_failed += test_block_moving();
 
   printf("====================\n\n");
   printf("Total errors: %d\n\n", number_failed);

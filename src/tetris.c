@@ -12,7 +12,6 @@ int main(void) {
   }
   setlocale(LC_ALL, "");
   print_overlay();
-  create_game();
 
   game_loop();
 

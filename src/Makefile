@@ -20,8 +20,7 @@ endif
 
 .PHONY: all
 all:  install
-	chmod +x ../build/s21_tetris
-	../build/s21_tetris
+	valgrind -q -s --leak-check=full --trace-children=yes --track-origins=yes --log-file=RESULT_VALGRIND.txt  ../build/s21_tetris
 
 .PHONY: build_back
 build_back:  $(BACK_OBJECTS)
@@ -45,10 +44,14 @@ uninstall:
 
 .PHONY: clean
 clean:
-	rm -f {.,brick_game/tetris, gui/cli, tests}/*.o {.,tests}/*.gcda {.,tests}/*.gcno
+	rm -f {.,brick_game/tetris, gui/cli, brick_game/tetris/tests}/*.o 
+	rm -f brick_game/tetris/tests/*.gcda 
+	rm -f brick_game/tetris/tests/*.gcno
+	rm -f ./*.gcno
+	rm -f ./*.gcda
 	rm -rf report
-	rm -f tests/{s21_test.info,s21_test,tests}
-	rm -f RESULT_VALGRIND.txt
+	rm -f brick_game/tetris/tests/{test.info,test,tests}
+	rm -f brick_game/tetris/tests/RESULT_VALGRIND.txt
 	rm -f *.a
 	rm -f tetris.install.tar.gz
 
@@ -62,33 +65,31 @@ dist:
 
 .PHONY: test
 test:  CFLAGS_BIN += $(TESTFLAGS)
-test: clean uninstall build_back build_front 
-	$(CC) $(CFLAGS_BIN) $(DEBUG_FLAGS) $(TEST_SOURCES) *.a -o brick_game/tetris/tests/tests -lcheck -lm -lsubunit
+test: clean build_back 
+	$(CC) $(CFLAGS_BIN) $(DEBUG_FLAGS) $(TEST_SOURCES) $(BACK_LIBNAME) -o brick_game/tetris/tests/tests -lcheck -lm -lsubunit
 ifeq ($(S21_DEBUG),true)   
-	./tests/tests
+	brick_game/tetris/tests/tests
 else
-	valgrind -q -s --leak-check=full --trace-children=yes --track-origins=yes --log-file=RESULT_VALGRIND.txt ./tests/tests
+	valgrind -q -s --leak-check=full --trace-children=yes --track-origins=yes --log-file=brick_game/tetris/tests/RESULT_VALGRIND.txt brick_game/tetris/tests/tests
 endif
 
 .PHONY: gcov_report
-gcov_report: test
-	$(CC) --coverage $(CFLAGS_BIN) $(DEBUG_FLAGS) $(SOURCES) $(TEST_SOURCES) -o tests/s21_test -lcheck -lm -lsubunit -lgcov
-	./tests/s21_test
-	lcov -t "s21_test" -o tests/s21_test.info -c -d .
-	genhtml -o report tests/s21_test.info
+gcov_report: clean 
+	$(CC) --coverage $(CFLAGS_BIN) $(DEBUG_FLAGS) $(TEST_SOURCES) $(BACK_SOURCES) -o brick_game/tetris/tests/tests -lcheck -lm -lsubunit -lgcov
+	./brick_game/tetris/tests/tests
+	lcov -t "test" -o brick_game/tetris/tests/test.info -c -d .
+	genhtml -o report brick_game/tetris/tests/test.info
+	open ./report/index.html
 
 .PHONY: check
 check:
 	cppcheck --enable=all --suppress=missingIncludeSystem ./
-	clang-format -n ../brick_game/tetris/*.c
-	clang-format -n ../brick_game/tetris/*.h
-	clang-format -n ../brick_game/tetris/tests/*.c
-	clang-format -n ../brick_game/tetris/tests/*.h
-	clang-format -n ../gui/cli/*.c
-	clang-format -n ../gui/cli/*.h
+	clang-format -n brick_game/tetris/*.c
+	clang-format -n brick_game/tetris/*.h
+	clang-format -n brick_game/tetris/tests/*.c
+	clang-format -n brick_game/tetris/tests/*.h
+	clang-format -n gui/cli/*.c
+	clang-format -n gui/cli/*.h
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(DEBUG_FLAGS) $< -o $@	
-
-
-

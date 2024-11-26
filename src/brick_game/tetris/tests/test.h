@@ -3,7 +3,9 @@
 
 #include "../tetris_backend.h"
 
-int stest(void);
-
+int test_recording(void);
+int test_status(void);
+int test_matrix(void);
+int test_block_moving(void);
 
 #endif

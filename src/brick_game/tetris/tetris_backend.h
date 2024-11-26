@@ -80,7 +80,7 @@
   }
 
 typedef enum {
-  START,
+  START = 0,
   SPAWN,
   ACTION,
   SHIFTING,
@@ -121,12 +121,14 @@ typedef enum {
   FIG_T
 } Block_name_t;
 
-//
-Game_t* get_game_info();
-void create_game();
+// вход в библиотеку
+void userInput(UserAction_t action, int hold);
+
+// выход из библиотеки
+GameInfo_t updateCurrentState();
 
 // работа с рекордом
-int get_hight_score();
+void get_hight_score();
 void set_hight_score();
 void update_score(int count);
 void update_level();
@@ -138,9 +140,6 @@ void block_spawn();
 void block_moving(UserAction_t act);
 void block_attaching();
 void check_overflow();
-void pin_block();
-void unpin_block();
-void fill_block(int** block, int name);
 
 // работа с матрицами
 int** create_matrix(int rows, int cols);
@@ -149,6 +148,9 @@ int check_row();
 void delete_row(int row);
 int** copy_matrix(int** src, int size);
 void rotate_matrix();
+void pin_block();
+void unpin_block();
+void fill_block(int** block, int name);
 
 // движение блока
 void check_time();
@@ -161,10 +163,7 @@ void rotate();
 int check_attached();
 void rotation_prepare(int* is_shift_right, int* is_shift_left);
 
-// вход в библиотеку
-void userInput(UserAction_t action, int hold);
-
-// выход из библиотеки
-GameInfo_t updateCurrentState();
+// костыль для теста
+Game_t* game_data();
 
 #endif

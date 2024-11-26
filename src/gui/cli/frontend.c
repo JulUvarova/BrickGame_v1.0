@@ -8,9 +8,9 @@ void print_rectangle(int top_y, int bottom_y, int left_x, int right_x) {
   for (; i < right_x; ++i) MVADDCH(top_y, i, ACS_HLINE);
   MVADDCH(top_y, i, ACS_URCORNER);
 
-  for (int i = top_y + 1; i < bottom_y; ++i) {
-    MVADDCH(i, left_x, ACS_VLINE);
-    MVADDCH(i, right_x, ACS_VLINE);
+  for (int j = top_y + 1; j < bottom_y; ++j) {
+    MVADDCH(j, left_x, ACS_VLINE);
+    MVADDCH(j, right_x, ACS_VLINE);
   }
 
   MVADDCH(bottom_y, left_x, ACS_LLCORNER);
@@ -44,7 +44,7 @@ void print_banner(const char* banner) {
 }
 
 void print_stats(GameInfo_t gameInfo) {
-  MVPRINTW(2, BOARD_M + 12, "%d", gameInfo.pause);
+  MVPRINTW(2, BOARD_M + 12, "%d", gameInfo.level);
   MVPRINTW(5, BOARD_M + 12, "%d", gameInfo.score);
 }
 
