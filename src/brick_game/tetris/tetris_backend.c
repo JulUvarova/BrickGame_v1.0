@@ -3,7 +3,6 @@
 static Game_t game;
 
 void game_init() {
-  game.status = SPAWN;
   game.pause = FALSE;
 
   game.field = NULL;
@@ -19,6 +18,11 @@ void game_init() {
   game.speed = SPEED_START;
 
   game.start_time = get_time();
+  
+  if (!game.field)
+    game.status = GAMEOVER;
+  else
+    game.status = SPAWN;
 }
 
 void game_end() {
@@ -325,6 +329,7 @@ void rotate() {
 
   game.status = ACTION;
 }
+
 void rotation_prepare(int* is_shift_right, int* is_shift_left) {
   if (game.block_x < 0) {
     for (int i = 0; i < BLOCK_SIZE; ++i) {
