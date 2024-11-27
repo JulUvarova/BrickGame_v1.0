@@ -11,7 +11,7 @@ START_TEST(check_and_delete_rows) {
   }
 
   int res = check_row();
-  
+
   ck_assert(res == 4);
   game_end();
 }

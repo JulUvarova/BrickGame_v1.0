@@ -2,6 +2,47 @@
 
 static Game_t game;
 
+void userInput(UserAction_t act, int hold) {
+  (void)hold;
+  if (game.status == START && act != Pause && act != Terminate) return;
+  if (game.status == GAMEOVER && act != Terminate) return;
+  if (game.pause && act != Pause && act != Terminate) return;
+  if (act == Terminate) game.status = GAMEOVER;
+  if (act == Pause) game.pause = (game.pause + 1) % 2;
+
+  check_time();
+
+  switch (game.status) {
+    case START:
+      game_init();
+      break;
+    case SPAWN:
+      block_spawn();
+      break;
+    case ACTION:
+      block_moving(act);
+      break;
+    case SHIFTING:
+      shift_down();
+      break;
+    case ATTACHING:
+      block_attaching();
+      break;
+    case GAMEOVER:
+      game_end();
+      // LCOV_EXCL_START
+    default:
+      break;
+      // LCOV_EXCL_STOP
+  }
+}
+
+GameInfo_t updateCurrentState() {
+  GameInfo_t game_info = {game.field, game.next,  game.score, game.high_score,
+                          game.level, game.speed, game.pause};
+  return game_info;
+}
+
 void game_init() {
   game.pause = FALSE;
   game.field = create_matrix(FIELD_ROWS, FIELD_COLS);
@@ -18,16 +59,6 @@ void game_init() {
   // LCOV_EXCL_STOP
   else
     game.status = SPAWN;
-}
-
-void game_end() {
-  remove_matrix(game.field, FIELD_ROWS);
-  remove_matrix(game.next, BLOCK_SIZE);
-  remove_matrix(game.block, BLOCK_SIZE);
-  game.field = NULL;
-  game.block = NULL;
-  game.next = NULL;
-  game.pause = -2;
 }
 
 void block_spawn() {
@@ -60,6 +91,15 @@ void block_spawn() {
     pin_block();
     game.status = ACTION;
   }
+}
+void game_end() {
+  remove_matrix(game.field, FIELD_ROWS);
+  remove_matrix(game.next, BLOCK_SIZE);
+  remove_matrix(game.block, BLOCK_SIZE);
+  game.field = NULL;
+  game.block = NULL;
+  game.next = NULL;
+  game.pause = -2;
 }
 
 void fill_block(int** block, int name) {
@@ -136,40 +176,6 @@ void remove_matrix(int** matrix, int rows) {
       free(matrix[i]);
     }
     free(matrix);
-  }
-}
-
-void userInput(UserAction_t act, int hold) {
-  (void)hold;
-  if (game.status == GAMEOVER && act != Terminate) return;
-  if (game.pause && act != Pause && act != Terminate) return;
-  if (act == Terminate) game.status = GAMEOVER;
-  if (act == Pause) game.pause = (game.pause + 1) % 2;
-
-  check_time();
-
-  switch (game.status) {
-    case START:
-      game_init();
-      break;
-    case SPAWN:
-      block_spawn();
-      break;
-    case ACTION:
-      block_moving(act);
-      break;
-    case SHIFTING:
-      shift_down();
-      break;
-    case ATTACHING:
-      block_attaching();
-      break;
-    case GAMEOVER:
-      game_end();
-      // LCOV_EXCL_START
-    default:
-      break;
-      // LCOV_EXCL_STOP
   }
 }
 
@@ -283,13 +289,10 @@ void block_moving(UserAction_t act) {
       shift_right();
       break;
     case Down:
-      shift_down();
-      break;
-    case Up:
-      rotate();
+      fall_down();
       break;
     case Action:
-      fall_down();
+      rotate();
       break;
       // LCOV_EXCL_START
     default:
@@ -377,7 +380,7 @@ void shift_down() {
 int check_attached() {
   int is_attached = FALSE;
   for (int i = 0; i < BLOCK_SIZE && is_attached == FALSE; ++i) {
-    if (game.block_y + i < 0) continue;
+    if (game.block_y + i < 0) continue;  // для плавного выхода фигуры
     for (int j = 0; j < BLOCK_SIZE && is_attached == FALSE; ++j) {
       if (game.block[i][j] != 0 &&
           (game.block_x + j < 0 || game.block_x + j > FIELD_COLS - 1 ||
@@ -391,6 +394,7 @@ int check_attached() {
 
 void unpin_block() {
   for (int i = 0; i < BLOCK_SIZE; ++i) {
+    if (game.block_y + i < 0) continue;  // для плавного выхода фигуры
     for (int j = 0; j < BLOCK_SIZE; ++j) {
       if (game.block[i][j] != 0)
         game.field[game.block_y + i][game.block_x + j] = 0;
@@ -400,6 +404,7 @@ void unpin_block() {
 
 void pin_block() {
   for (int i = 0; i < BLOCK_SIZE; ++i) {
+    if (game.block_y + i < 0) continue;  // для плавного выхода фигуры
     for (int j = 0; j < BLOCK_SIZE; ++j) {
       if (game.block[i][j] != 0)
         game.field[game.block_y + i][game.block_x + j] = game.block[i][j];
@@ -409,12 +414,6 @@ void pin_block() {
 
 void fall_down() {
   while (game.status != ATTACHING) shift_down();
-}
-
-GameInfo_t updateCurrentState() {
-  GameInfo_t game_info = {game.field, game.next,  game.score, game.high_score,
-                          game.level, game.speed, game.pause};
-  return game_info;
 }
 
 void get_hight_score() {

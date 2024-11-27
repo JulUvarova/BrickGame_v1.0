@@ -110,8 +110,8 @@ START_TEST(shifting_down) {
 
   shift_down();
 
-  ck_assert(game->field[2][(FIELD_COLS - BLOCK_SIZE) / 2 + 2] == 7);
-  ck_assert(game->field[1][(FIELD_COLS - BLOCK_SIZE) / 2 + 3] == 0);
+  ck_assert(game->field[1][(FIELD_COLS - BLOCK_SIZE) / 2 + 2] == 7);
+  ck_assert(game->field[0][(FIELD_COLS - BLOCK_SIZE) / 2 + 3] == 0);
   ck_assert(game->block_y = 1);
   game_end();
 }

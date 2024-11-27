@@ -9,9 +9,8 @@ START_TEST(block_moving_all) {
 
   block_moving(Left);
   block_moving(Right);
-  block_moving(Down);
-  block_moving(Up);
   block_moving(Action);
+  block_moving(Down);
 
   ck_assert(game->status == ATTACHING);
   game_end();

@@ -40,9 +40,8 @@ START_TEST(input_moving) {
   block_spawn();
   userInput(Left, 0);
   userInput(Right, 0);
-  userInput(Up, 0);
-  userInput(Down, 0);
   userInput(Action, 0);
+  userInput(Down, 0);
   const Game_t *game = game_data();
 
   ck_assert(game->status == ATTACHING);
@@ -52,9 +51,9 @@ START_TEST(input_moving) {
 START_TEST(input_in_attaching) {
   game_init();
   block_spawn();
-  userInput(Action, 0);
+  userInput(Down, 0);
   const Game_t *game = game_data();
-  userInput(1111111, 0);
+  userInput(Up, 0);
 
   ck_assert(game->status == SPAWN);
   game_end();
@@ -78,17 +77,15 @@ START_TEST(input_for_start) {
   game->status = START;
   userInput(Pause, 0);
 
-  ck_assert(game->status == SPAWN);
+  ck_assert_int_eq(game->status, SPAWN);
   game_end();
 }
 
 START_TEST(input_in_spawn) {
   game_init();
-  Game_t *game = game_data();
-  game->status = SPAWN;
+  const Game_t *game = game_data();
   userInput(Left, 0);
 
-printf("\n%d\n", game->status);
   ck_assert(game->status == ACTION);
   game_end();
 }

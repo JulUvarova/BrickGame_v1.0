@@ -20,7 +20,7 @@ endif
 
 .PHONY: all
 all:  install
-	valgrind -q -s --leak-check=full --trace-children=yes --track-origins=yes --log-file=RESULT_VALGRIND.txt  ../build/s21_tetris
+	../build/s21_tetris
 
 .PHONY: build_back
 build_back:  $(BACK_OBJECTS)
@@ -50,6 +50,7 @@ clean:
 	rm -f brick_game/tetris/tests/*.txt
 	rm -f ./*.gcno
 	rm -f ./*.gcda
+	rm -f ./*.txt
 	rm -rf report
 	rm -f brick_game/tetris/tests/{test.info,test,tests}
 	rm -f brick_game/tetris/tests/RESULT_VALGRIND.txt
@@ -58,7 +59,7 @@ clean:
 
 .PHONY: dvi
 dvi: 
-	open ./brick_game/tetris/tetris_documentation/html/annotated.html
+	open ./brick_game/tetris/tetris_documentation/html
 	# Вариант, если установлена библиотека doxygen
 	# doxygen brick_game/tetris/doxygen_config
 
