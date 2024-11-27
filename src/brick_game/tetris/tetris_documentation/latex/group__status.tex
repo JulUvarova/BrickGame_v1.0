@@ -1,0 +1,72 @@
+\doxysection{Функции для работы с состояниями игры}
+\hypertarget{group__status}{}\label{group__status}\index{Функции для работы с состояниями игры@{Функции для работы с состояниями игры}}
+
+
+Включают инициализацию игры, смену состояний и окончание  
+
+
+\doxysubsubsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{group__status_ga5f5ccbe5abfdef24c8378dc3cf32ffb3}{game\+\_\+init}} ()
+\item 
+void \mbox{\hyperlink{group__status_ga486d33bd072d399b11f0cf3ae7448e5b}{game\+\_\+end}} ()
+\item 
+void \mbox{\hyperlink{group__status_ga051c28fe4a23e77185fd18b8375dba1b}{block\+\_\+spawn}} ()
+\item 
+void \mbox{\hyperlink{group__status_ga5f563cf3668555b74cdd949b13a71527}{block\+\_\+moving}} (\mbox{\hyperlink{objects_8h_a7ba289d7b97db30e0b7041ca2cef75a9}{User\+Action\+\_\+t}} act)
+\item 
+void \mbox{\hyperlink{group__status_ga052ce8c188408c53f8808e6f91125116}{block\+\_\+attaching}} ()
+\item 
+void \mbox{\hyperlink{group__status_gaa9f76cc5dead0ec4d3a336562f85f961}{check\+\_\+overflow}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Подробное описание}
+Включают инициализацию игры, смену состояний и окончание 
+
+
+
+\doxysubsection{Функции}
+\Hypertarget{group__status_ga052ce8c188408c53f8808e6f91125116}\label{group__status_ga052ce8c188408c53f8808e6f91125116} 
+\index{Функции для работы с состояниями игры@{Функции для работы с состояниями игры}!block\_attaching@{block\_attaching}}
+\index{block\_attaching@{block\_attaching}!Функции для работы с состояниями игры@{Функции для работы с состояниями игры}}
+\doxysubsubsection{\texorpdfstring{block\_attaching()}{block\_attaching()}}
+{\footnotesize\ttfamily void block\+\_\+attaching (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Проверка столкновения фигруры с нижней рамкой или блоками на поле Срабатывает при статусе ATTACHING Переводит статус на SPAWN \Hypertarget{group__status_ga5f563cf3668555b74cdd949b13a71527}\label{group__status_ga5f563cf3668555b74cdd949b13a71527} 
+\index{Функции для работы с состояниями игры@{Функции для работы с состояниями игры}!block\_moving@{block\_moving}}
+\index{block\_moving@{block\_moving}!Функции для работы с состояниями игры@{Функции для работы с состояниями игры}}
+\doxysubsubsection{\texorpdfstring{block\_moving()}{block\_moving()}}
+{\footnotesize\ttfamily void block\+\_\+moving (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{objects_8h_a7ba289d7b97db30e0b7041ca2cef75a9}{User\+Action\+\_\+t}}}]{act }\end{DoxyParamCaption})}
+
+Вызыает функции обработки движения в зависимости от выбранного пользователем действия 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\texttt{ in}}  & {\em action} & Действие пользователя\+: вправо, влево, вниз, падение, ротация, простой Срабатывает при статусе ACTION \\
+\hline
+\end{DoxyParams}
+\Hypertarget{group__status_ga051c28fe4a23e77185fd18b8375dba1b}\label{group__status_ga051c28fe4a23e77185fd18b8375dba1b} 
+\index{Функции для работы с состояниями игры@{Функции для работы с состояниями игры}!block\_spawn@{block\_spawn}}
+\index{block\_spawn@{block\_spawn}!Функции для работы с состояниями игры@{Функции для работы с состояниями игры}}
+\doxysubsubsection{\texorpdfstring{block\_spawn()}{block\_spawn()}}
+{\footnotesize\ttfamily void block\+\_\+spawn (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Создает матрицы текущего и следующего блоков, заполняет их рандомной фигурой, устанавливает параметры блоков Срабатывает при статусе SPAWN При заполнении первой строки игрового поля переводит состояние на GAMEOVER, иначе -\/ ACTION \Hypertarget{group__status_gaa9f76cc5dead0ec4d3a336562f85f961}\label{group__status_gaa9f76cc5dead0ec4d3a336562f85f961} 
+\index{Функции для работы с состояниями игры@{Функции для работы с состояниями игры}!check\_overflow@{check\_overflow}}
+\index{check\_overflow@{check\_overflow}!Функции для работы с состояниями игры@{Функции для работы с состояниями игры}}
+\doxysubsubsection{\texorpdfstring{check\_overflow()}{check\_overflow()}}
+{\footnotesize\ttfamily void check\+\_\+overflow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Проверка касания точек столкнувшейся фигуры с верхней строкой игрового поля Переводит статус на SPAWN, если столкновения не было, иначе -\/ GAMEOVER \Hypertarget{group__status_ga486d33bd072d399b11f0cf3ae7448e5b}\label{group__status_ga486d33bd072d399b11f0cf3ae7448e5b} 
+\index{Функции для работы с состояниями игры@{Функции для работы с состояниями игры}!game\_end@{game\_end}}
+\index{game\_end@{game\_end}!Функции для работы с состояниями игры@{Функции для работы с состояниями игры}}
+\doxysubsubsection{\texorpdfstring{game\_end()}{game\_end()}}
+{\footnotesize\ttfamily void game\+\_\+end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Уничтожает матрицы игрового поля, текущего и следующего блоков Устанавливает значение поля pause -\/2 -\/ сигнал завешения работы бекенда Срабатывает при статусе GAMEOVER Устанавливает состояние EXIT\+\_\+\+GAME \Hypertarget{group__status_ga5f5ccbe5abfdef24c8378dc3cf32ffb3}\label{group__status_ga5f5ccbe5abfdef24c8378dc3cf32ffb3} 
+\index{Функции для работы с состояниями игры@{Функции для работы с состояниями игры}!game\_init@{game\_init}}
+\index{game\_init@{game\_init}!Функции для работы с состояниями игры@{Функции для работы с состояниями игры}}
+\doxysubsubsection{\texorpdfstring{game\_init()}{game\_init()}}
+{\footnotesize\ttfamily void game\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Инициализирует структуру \doxylink{structGame__t}{Game\+\_\+t}, создает игровое поле, устанавливает начальные значения игры Срабатывает при статусе START Устанавливает состояние SPAWN Вслучае невыделения памяти под field статус меняется на GAMEOVER 

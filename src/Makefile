@@ -57,7 +57,9 @@ clean:
 
 .PHONY: dvi
 dvi: 
-	open ./README.md
+	open ./brick_game/tetris/tetris_documentation/html/annotated.html
+	# Вариант, если установлена библиотека doxygen
+	# doxygen brick_game/tetris/doxygen_config
 
 .PHONY: dist
 dist: 

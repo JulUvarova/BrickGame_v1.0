@@ -1,0 +1,292 @@
+\doxysection{Файл brick\+\_\+game/tetris/tetris\+\_\+backend.h}
+\hypertarget{tetris__backend_8h}{}\label{tetris__backend_8h}\index{brick\_game/tetris/tetris\_backend.h@{brick\_game/tetris/tetris\_backend.h}}
+
+
+Заголовочный файл с описанием библиотеки логики тетриса  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include "{}../../common\+\_\+objects/objects.\+h"{}}\newline
+Граф включаемых заголовочных файлов для tetris\+\_\+backend.\+h\+:
+% FIG 0
+\doxysubsubsection*{Классы}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structGame__t}{Game\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Структура для хранения полной информации об игре. Представлена внутри библиотеки игры статическим объектом \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Макросы}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{tetris__backend_8h_aa8cecfc5c5c054d2875c03e77b7be15d}\label{tetris__backend_8h_aa8cecfc5c5c054d2875c03e77b7be15d} 
+\#define {\bfseries TRUE}~1
+\item 
+\Hypertarget{tetris__backend_8h_aa93f0eb578d23995850d61f7d61c55c1}\label{tetris__backend_8h_aa93f0eb578d23995850d61f7d61c55c1} 
+\#define {\bfseries FALSE}~0
+\item 
+\Hypertarget{tetris__backend_8h_a9da2481ad52b5e998640e5aff6970292}\label{tetris__backend_8h_a9da2481ad52b5e998640e5aff6970292} 
+\#define {\bfseries FIELD\+\_\+\+COLS}~10
+\item 
+\Hypertarget{tetris__backend_8h_aac8212b115bae561910e50f6727650a2}\label{tetris__backend_8h_aac8212b115bae561910e50f6727650a2} 
+\#define {\bfseries FIELD\+\_\+\+ROWS}~20
+\item 
+\Hypertarget{tetris__backend_8h_ad51ded0bbd705f02f73fc60c0b721ced}\label{tetris__backend_8h_ad51ded0bbd705f02f73fc60c0b721ced} 
+\#define {\bfseries BLOCK\+\_\+\+SIZE}~4
+\item 
+\Hypertarget{tetris__backend_8h_ab3da55ec044a417821d3c005c691ce9f}\label{tetris__backend_8h_ab3da55ec044a417821d3c005c691ce9f} 
+\#define {\bfseries HIGH\+\_\+\+SCORE\+\_\+\+MEM}~"{}highest\+\_\+score.\+txt"{}
+\item 
+\Hypertarget{tetris__backend_8h_a26c59273c3c145bbd47ca8c1ca922be1}\label{tetris__backend_8h_a26c59273c3c145bbd47ca8c1ca922be1} 
+\#define {\bfseries SPEED\+\_\+\+START}~3000
+\item 
+\Hypertarget{tetris__backend_8h_a28e3d724c25aa80c53d9fef5d9dbad92}\label{tetris__backend_8h_a28e3d724c25aa80c53d9fef5d9dbad92} 
+\#define {\bfseries LEVEL\+\_\+\+MAX}~2
+\item 
+\Hypertarget{tetris__backend_8h_a73fd59bc0dfba50598e8ccec6e08a3cf}\label{tetris__backend_8h_a73fd59bc0dfba50598e8ccec6e08a3cf} 
+\#define {\bfseries LEVEL\+\_\+\+STEP}~600
+\item 
+\Hypertarget{tetris__backend_8h_a3e2c7d7a75819f186a4ef4f1106a3ce1}\label{tetris__backend_8h_a3e2c7d7a75819f186a4ef4f1106a3ce1} 
+\#define {\bfseries COST\+\_\+\+ONE\+\_\+\+LINE}~100
+\item 
+\Hypertarget{tetris__backend_8h_a6d51937edf8f2c4cbffa2b27baa8d6d6}\label{tetris__backend_8h_a6d51937edf8f2c4cbffa2b27baa8d6d6} 
+\#define {\bfseries COST\+\_\+\+TWO\+\_\+\+LINE}~300
+\item 
+\Hypertarget{tetris__backend_8h_a16de3b46a9e85bd0d2455a9d285cc448}\label{tetris__backend_8h_a16de3b46a9e85bd0d2455a9d285cc448} 
+\#define {\bfseries COST\+\_\+\+THREE\+\_\+\+LINE}~700
+\item 
+\Hypertarget{tetris__backend_8h_a028665249c0036666583f2da51100f99}\label{tetris__backend_8h_a028665249c0036666583f2da51100f99} 
+\#define {\bfseries COST\+\_\+\+FOUR\+\_\+\+LINE}~1500
+\item 
+\#define \mbox{\hyperlink{tetris__backend_8h_a852d9c89e1d55355430c7dea45848d4c}{FILL\+\_\+L}}(block)
+\item 
+\#define \mbox{\hyperlink{tetris__backend_8h_ab3a0a895e053780da81e7379e252a0b1}{FILL\+\_\+J}}(block)
+\item 
+\#define \mbox{\hyperlink{tetris__backend_8h_a8ce644ca82cae836df1c247834899dc5}{FILL\+\_\+S}}(block)
+\item 
+\#define \mbox{\hyperlink{tetris__backend_8h_a2d4e74f681e957858f6268d56406e56e}{FILL\+\_\+Z}}(block)
+\item 
+\#define \mbox{\hyperlink{tetris__backend_8h_a7c8cb9cda1590ebee9b853cec2b6dda8}{FILL\+\_\+I}}(block)
+\item 
+\#define \mbox{\hyperlink{tetris__backend_8h_a58a18fe7e90183a43317c824ce14d54b}{FILL\+\_\+T}}(block)
+\item 
+\#define \mbox{\hyperlink{tetris__backend_8h_a420c1144c7230d6e2b83fbc60ab45090}{FILL\+\_\+O}}(block)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Перечисления}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{tetris__backend_8h_ae2946618e700f814e6147195c808f4c8}\label{tetris__backend_8h_ae2946618e700f814e6147195c808f4c8} 
+enum \mbox{\hyperlink{tetris__backend_8h_ae2946618e700f814e6147195c808f4c8}{State\+\_\+t}} \{ \newline
+{\bfseries START} = 0
+, {\bfseries SPAWN}
+, {\bfseries ACTION}
+, {\bfseries SHIFTING}
+, \newline
+{\bfseries ATTACHING}
+, {\bfseries GAMEOVER}
+, {\bfseries EXIT\+\_\+\+STATE}
+ \}
+\begin{DoxyCompactList}\small\item\em Список возможных состояний конечного автомата \end{DoxyCompactList}\item 
+\Hypertarget{tetris__backend_8h_a2a3868a8bbeb170ca0c52358bfd36115}\label{tetris__backend_8h_a2a3868a8bbeb170ca0c52358bfd36115} 
+enum \mbox{\hyperlink{tetris__backend_8h_a2a3868a8bbeb170ca0c52358bfd36115}{Block\+\_\+name\+\_\+t}} \{ \newline
+{\bfseries FIG\+\_\+J} = 0
+, {\bfseries FIG\+\_\+L}
+, {\bfseries FIG\+\_\+O}
+, {\bfseries FIG\+\_\+I}
+, \newline
+{\bfseries FIG\+\_\+Z}
+, {\bfseries FIG\+\_\+S}
+, {\bfseries FIG\+\_\+T}
+ \}
+\begin{DoxyCompactList}\small\item\em Список возможных фигур \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{group__main_gaaf4762beee0bc3e86b1f0ee7ccbd9b54}{user\+Input}} (\mbox{\hyperlink{objects_8h_a7ba289d7b97db30e0b7041ca2cef75a9}{User\+Action\+\_\+t}} action, int hold)
+\item 
+\mbox{\hyperlink{structGameInfo__t}{Game\+Info\+\_\+t}} \mbox{\hyperlink{group__main_gafd5762991a9248a0b4192983fd786a8f}{update\+Current\+State}} ()
+\item 
+void \mbox{\hyperlink{group__score_ga93e3589c5a858554e1e4a8f3536ef862}{get\+\_\+hight\+\_\+score}} ()
+\item 
+void \mbox{\hyperlink{group__score_ga6e30103dc7de54d94f4384a8e267e55b}{set\+\_\+hight\+\_\+score}} ()
+\item 
+void \mbox{\hyperlink{group__score_gafcfc178a6009d1abef28374f9f2ba685}{update\+\_\+score}} (int count)
+\item 
+void \mbox{\hyperlink{group__score_ga65d696c970e3074a3b07780b1cedc407}{update\+\_\+level}} ()
+\item 
+void \mbox{\hyperlink{group__status_ga5f5ccbe5abfdef24c8378dc3cf32ffb3}{game\+\_\+init}} ()
+\item 
+void \mbox{\hyperlink{group__status_ga486d33bd072d399b11f0cf3ae7448e5b}{game\+\_\+end}} ()
+\item 
+void \mbox{\hyperlink{group__status_ga051c28fe4a23e77185fd18b8375dba1b}{block\+\_\+spawn}} ()
+\item 
+void \mbox{\hyperlink{group__status_ga5f563cf3668555b74cdd949b13a71527}{block\+\_\+moving}} (\mbox{\hyperlink{objects_8h_a7ba289d7b97db30e0b7041ca2cef75a9}{User\+Action\+\_\+t}} act)
+\item 
+void \mbox{\hyperlink{group__status_ga052ce8c188408c53f8808e6f91125116}{block\+\_\+attaching}} ()
+\item 
+void \mbox{\hyperlink{group__status_gaa9f76cc5dead0ec4d3a336562f85f961}{check\+\_\+overflow}} ()
+\item 
+void \mbox{\hyperlink{group__move_ga6bb46547a6e0d03100d240a87482645a}{check\+\_\+time}} ()
+\item 
+unsigned long long \mbox{\hyperlink{group__move_ga15b2616e5358f18a1f36b9d7e54e73c1}{get\+\_\+time}} ()
+\item 
+void \mbox{\hyperlink{group__move_ga40777c265d8b7f762aa6344e009ce673}{shift\+\_\+left}} ()
+\item 
+void \mbox{\hyperlink{group__move_ga4d7b3f7cb0fdb739d9624dfd3fdc2398}{shift\+\_\+right}} ()
+\item 
+void \mbox{\hyperlink{group__move_ga5e3d4dee0e4f08c843069be0c5a83b76}{fall\+\_\+down}} ()
+\item 
+void \mbox{\hyperlink{group__move_gab6921cc71878f289add8101c987095b4}{shift\+\_\+down}} ()
+\item 
+void \mbox{\hyperlink{group__move_ga15a76598a144447da51866d50bf65d58}{rotate}} ()
+\item 
+int \mbox{\hyperlink{group__move_gaaae7fce478ff0e849a971455f152fe03}{check\+\_\+attached}} ()
+\item 
+void \mbox{\hyperlink{group__move_ga5958bfd09ff1ae8f33274729a7ea3885}{rotation\+\_\+prepare}} (int \texorpdfstring{$\ast$}{*}is\+\_\+shift\+\_\+right, int \texorpdfstring{$\ast$}{*}is\+\_\+shift\+\_\+left)
+\item 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{group__matrix_gae524c14ca2862ebb4d57aa3e2ff2be20}{create\+\_\+matrix}} (int rows, int cols)
+\item 
+void \mbox{\hyperlink{group__matrix_ga50b49417e16d8fd34a028a9792fb495f}{remove\+\_\+matrix}} (int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}matrix, int rows)
+\item 
+int \mbox{\hyperlink{group__matrix_ga3124a261279492c7f65bf7c0402cc0e5}{check\+\_\+row}} ()
+\item 
+void \mbox{\hyperlink{group__matrix_gaa3ab7f451b7b6742e2b3a7d682fb7f0b}{delete\+\_\+row}} (int row)
+\item 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{group__matrix_ga400e763e1251856b18ea51a88aa0e5a3}{copy\+\_\+matrix}} (int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}src, int size)
+\item 
+void \mbox{\hyperlink{group__matrix_gad4fb051e8210a2a50e19227fc827a605}{rotate\+\_\+matrix}} ()
+\item 
+void \mbox{\hyperlink{group__matrix_gad3a15bd7259432e8be04f1e272e861c5}{pin\+\_\+block}} ()
+\item 
+void \mbox{\hyperlink{group__matrix_gab1c8ccb63c78940ef2b01ddcf5a4e247}{unpin\+\_\+block}} ()
+\item 
+void \mbox{\hyperlink{group__matrix_ga25b53135f7f2eebedd16610c6ebace13}{fill\+\_\+block}} (int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}block, int name)
+\item 
+\mbox{\hyperlink{structGame__t}{Game\+\_\+t}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{group__test_gad8db101c868cf67225d9890664107b14}{game\+\_\+data}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Подробное описание}
+Заголовочный файл с описанием библиотеки логики тетриса 
+
+\begin{DoxyAuthor}{Автор}
+Trumpecy 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Дата}
+Ноябрь 2024 года
+\end{DoxyDate}
+Данный файл содержит в себе определения основных структук и функций, используемых для сборки бекэнда игры 
+
+\doxysubsection{Макросы}
+\Hypertarget{tetris__backend_8h_a7c8cb9cda1590ebee9b853cec2b6dda8}\label{tetris__backend_8h_a7c8cb9cda1590ebee9b853cec2b6dda8} 
+\index{tetris\_backend.h@{tetris\_backend.h}!FILL\_I@{FILL\_I}}
+\index{FILL\_I@{FILL\_I}!tetris\_backend.h@{tetris\_backend.h}}
+\doxysubsubsection{\texorpdfstring{FILL\_I}{FILL\_I}}
+{\footnotesize\ttfamily \#define FILL\+\_\+I(\begin{DoxyParamCaption}\item[{}]{block }\end{DoxyParamCaption})}
+
+{\bfseries Макроопределение\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][0]\ =\ 5;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][1]\ =\ 5;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][2]\ =\ 5;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][3]\ =\ 5;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{tetris__backend_8h_ab3a0a895e053780da81e7379e252a0b1}\label{tetris__backend_8h_ab3a0a895e053780da81e7379e252a0b1} 
+\index{tetris\_backend.h@{tetris\_backend.h}!FILL\_J@{FILL\_J}}
+\index{FILL\_J@{FILL\_J}!tetris\_backend.h@{tetris\_backend.h}}
+\doxysubsubsection{\texorpdfstring{FILL\_J}{FILL\_J}}
+{\footnotesize\ttfamily \#define FILL\+\_\+J(\begin{DoxyParamCaption}\item[{}]{block }\end{DoxyParamCaption})}
+
+{\bfseries Макроопределение\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[0][1]\ =\ 2;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][1]\ =\ 2;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[2][1]\ =\ 2;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[2][0]\ =\ 2;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{tetris__backend_8h_a852d9c89e1d55355430c7dea45848d4c}\label{tetris__backend_8h_a852d9c89e1d55355430c7dea45848d4c} 
+\index{tetris\_backend.h@{tetris\_backend.h}!FILL\_L@{FILL\_L}}
+\index{FILL\_L@{FILL\_L}!tetris\_backend.h@{tetris\_backend.h}}
+\doxysubsubsection{\texorpdfstring{FILL\_L}{FILL\_L}}
+{\footnotesize\ttfamily \#define FILL\+\_\+L(\begin{DoxyParamCaption}\item[{}]{block }\end{DoxyParamCaption})}
+
+{\bfseries Макроопределение\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[0][1]\ =\ 1;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][1]\ =\ 1;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[2][1]\ =\ 1;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[2][2]\ =\ 1;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{tetris__backend_8h_a420c1144c7230d6e2b83fbc60ab45090}\label{tetris__backend_8h_a420c1144c7230d6e2b83fbc60ab45090} 
+\index{tetris\_backend.h@{tetris\_backend.h}!FILL\_O@{FILL\_O}}
+\index{FILL\_O@{FILL\_O}!tetris\_backend.h@{tetris\_backend.h}}
+\doxysubsubsection{\texorpdfstring{FILL\_O}{FILL\_O}}
+{\footnotesize\ttfamily \#define FILL\+\_\+O(\begin{DoxyParamCaption}\item[{}]{block }\end{DoxyParamCaption})}
+
+{\bfseries Макроопределение\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][1]\ =\ 7;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][2]\ =\ 7;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[2][1]\ =\ 7;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[2][2]\ =\ 7;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{tetris__backend_8h_a8ce644ca82cae836df1c247834899dc5}\label{tetris__backend_8h_a8ce644ca82cae836df1c247834899dc5} 
+\index{tetris\_backend.h@{tetris\_backend.h}!FILL\_S@{FILL\_S}}
+\index{FILL\_S@{FILL\_S}!tetris\_backend.h@{tetris\_backend.h}}
+\doxysubsubsection{\texorpdfstring{FILL\_S}{FILL\_S}}
+{\footnotesize\ttfamily \#define FILL\+\_\+S(\begin{DoxyParamCaption}\item[{}]{block }\end{DoxyParamCaption})}
+
+{\bfseries Макроопределение\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][1]\ =\ 3;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][2]\ =\ 3;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[2][1]\ =\ 3;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[2][0]\ =\ 3;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{tetris__backend_8h_a58a18fe7e90183a43317c824ce14d54b}\label{tetris__backend_8h_a58a18fe7e90183a43317c824ce14d54b} 
+\index{tetris\_backend.h@{tetris\_backend.h}!FILL\_T@{FILL\_T}}
+\index{FILL\_T@{FILL\_T}!tetris\_backend.h@{tetris\_backend.h}}
+\doxysubsubsection{\texorpdfstring{FILL\_T}{FILL\_T}}
+{\footnotesize\ttfamily \#define FILL\+\_\+T(\begin{DoxyParamCaption}\item[{}]{block }\end{DoxyParamCaption})}
+
+{\bfseries Макроопределение\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][0]\ =\ 6;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][1]\ =\ 6;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][2]\ =\ 6;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[0][1]\ =\ 6;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{tetris__backend_8h_a2d4e74f681e957858f6268d56406e56e}\label{tetris__backend_8h_a2d4e74f681e957858f6268d56406e56e} 
+\index{tetris\_backend.h@{tetris\_backend.h}!FILL\_Z@{FILL\_Z}}
+\index{FILL\_Z@{FILL\_Z}!tetris\_backend.h@{tetris\_backend.h}}
+\doxysubsubsection{\texorpdfstring{FILL\_Z}{FILL\_Z}}
+{\footnotesize\ttfamily \#define FILL\+\_\+Z(\begin{DoxyParamCaption}\item[{}]{block }\end{DoxyParamCaption})}
+
+{\bfseries Макроопределение\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][0]\ =\ 4;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[1][1]\ =\ 4;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[2][1]\ =\ 4;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ block[2][2]\ =\ 4;\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \}}
+
+\end{DoxyCode}

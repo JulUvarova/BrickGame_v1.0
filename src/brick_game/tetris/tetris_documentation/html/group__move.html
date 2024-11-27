@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>BrickGame: TETRIS: Функции, обеспечивающие движение блоков на игровом поле</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">BrickGame: TETRIS
+   </div>
+   <div id="projectbrief">«Тетрис», наверное, одна из самых популярных игр для консоли Brickgame. Нередко и саму консоль называют тетрисом. Цель игры — в наборе очков за построение линий из генерируемых игрой блоков. Очередной блок, сгенерированный игрой, начинает опускаться вниз по игровому полю, пока не достигнет нижней границы или не столкнется с другим блоком. Пользователь может поворачивать фигуры и перемещать их по горизонтали, стараясь составлять ряды. После заполнения ряд уничтожается, игрок получает очки, а блоки, находящиеся выше заполненного ряда, опускаются вниз. Игра заканчивается, когда очередная фигура останавливается в самом верхнем ряду.</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('group__move.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Функции</a>  </div>
+  <div class="headertitle"><div class="title">Функции, обеспечивающие движение блоков на игровом поле</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Включают в себя основные действия: движения влево, вправо, вниз, поворот, падение  
+<a href="#details">Подробнее...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Функции</h2></td></tr>
+<tr class="memitem:ga6bb46547a6e0d03100d240a87482645a" id="r_ga6bb46547a6e0d03100d240a87482645a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__move.html#ga6bb46547a6e0d03100d240a87482645a">check_time</a> ()</td></tr>
+<tr class="separator:ga6bb46547a6e0d03100d240a87482645a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga15b2616e5358f18a1f36b9d7e54e73c1" id="r_ga15b2616e5358f18a1f36b9d7e54e73c1"><td class="memItemLeft" align="right" valign="top">unsigned long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__move.html#ga15b2616e5358f18a1f36b9d7e54e73c1">get_time</a> ()</td></tr>
+<tr class="separator:ga15b2616e5358f18a1f36b9d7e54e73c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga40777c265d8b7f762aa6344e009ce673" id="r_ga40777c265d8b7f762aa6344e009ce673"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__move.html#ga40777c265d8b7f762aa6344e009ce673">shift_left</a> ()</td></tr>
+<tr class="separator:ga40777c265d8b7f762aa6344e009ce673"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4d7b3f7cb0fdb739d9624dfd3fdc2398" id="r_ga4d7b3f7cb0fdb739d9624dfd3fdc2398"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__move.html#ga4d7b3f7cb0fdb739d9624dfd3fdc2398">shift_right</a> ()</td></tr>
+<tr class="separator:ga4d7b3f7cb0fdb739d9624dfd3fdc2398"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5e3d4dee0e4f08c843069be0c5a83b76" id="r_ga5e3d4dee0e4f08c843069be0c5a83b76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__move.html#ga5e3d4dee0e4f08c843069be0c5a83b76">fall_down</a> ()</td></tr>
+<tr class="separator:ga5e3d4dee0e4f08c843069be0c5a83b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab6921cc71878f289add8101c987095b4" id="r_gab6921cc71878f289add8101c987095b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__move.html#gab6921cc71878f289add8101c987095b4">shift_down</a> ()</td></tr>
+<tr class="separator:gab6921cc71878f289add8101c987095b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga15a76598a144447da51866d50bf65d58" id="r_ga15a76598a144447da51866d50bf65d58"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__move.html#ga15a76598a144447da51866d50bf65d58">rotate</a> ()</td></tr>
+<tr class="separator:ga15a76598a144447da51866d50bf65d58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaae7fce478ff0e849a971455f152fe03" id="r_gaaae7fce478ff0e849a971455f152fe03"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__move.html#gaaae7fce478ff0e849a971455f152fe03">check_attached</a> ()</td></tr>
+<tr class="separator:gaaae7fce478ff0e849a971455f152fe03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5958bfd09ff1ae8f33274729a7ea3885" id="r_ga5958bfd09ff1ae8f33274729a7ea3885"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__move.html#ga5958bfd09ff1ae8f33274729a7ea3885">rotation_prepare</a> (int *is_shift_right, int *is_shift_left)</td></tr>
+<tr class="separator:ga5958bfd09ff1ae8f33274729a7ea3885"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<p>Включают в себя основные действия: движения влево, вправо, вниз, поворот, падение </p>
+<h2 class="groupheader">Функции</h2>
+<a id="gaaae7fce478ff0e849a971455f152fe03" name="gaaae7fce478ff0e849a971455f152fe03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaae7fce478ff0e849a971455f152fe03">&#9670;&#160;</a></span>check_attached()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int check_attached </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Проверяет факт столкновения фигуры с элементами на поле </p><dl class="section return"><dt>Возвращает</dt><dd>TRUE - столкновение произошло, FALSE - нет </dd></dl>
+
+</div>
+</div>
+<a id="ga6bb46547a6e0d03100d240a87482645a" name="ga6bb46547a6e0d03100d240a87482645a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6bb46547a6e0d03100d240a87482645a">&#9670;&#160;</a></span>check_time()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void check_time </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Считает разницу между start_time и текущем временем, сравнивает ее сщ значением speed Если разница больше - переход в статус SHIFTING Срабатывает при состоянии ACTION </p>
+
+</div>
+</div>
+<a id="ga5e3d4dee0e4f08c843069be0c5a83b76" name="ga5e3d4dee0e4f08c843069be0c5a83b76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5e3d4dee0e4f08c843069be0c5a83b76">&#9670;&#160;</a></span>fall_down()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fall_down </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Повторяет команду <a class="el" href="group__move.html#gab6921cc71878f289add8101c987095b4">shift_down()</a>, пока статус не сменится на ATTACHING </p>
+
+</div>
+</div>
+<a id="ga15b2616e5358f18a1f36b9d7e54e73c1" name="ga15b2616e5358f18a1f36b9d7e54e73c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga15b2616e5358f18a1f36b9d7e54e73c1">&#9670;&#160;</a></span>get_time()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long long get_time </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Считает и возвращает время в милисекундах с помощью struct timespec </p>
+
+</div>
+</div>
+<a id="ga15a76598a144447da51866d50bf65d58" name="ga15a76598a144447da51866d50bf65d58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga15a76598a144447da51866d50bf65d58">&#9670;&#160;</a></span>rotate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rotate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Вращает фигуру rotate раз, если нет мешающих элементов </p>
+
+</div>
+</div>
+<a id="ga5958bfd09ff1ae8f33274729a7ea3885" name="ga5958bfd09ff1ae8f33274729a7ea3885"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5958bfd09ff1ae8f33274729a7ea3885">&#9670;&#160;</a></span>rotation_prepare()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rotation_prepare </td>
+          <td>(</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>is_shift_right</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>is_shift_left</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Проверяет возможен ли отскок фигуры от боковых границ поля при команде <a class="el" href="group__move.html#ga15a76598a144447da51866d50bf65d58">rotate()</a> </p>
+
+</div>
+</div>
+<a id="gab6921cc71878f289add8101c987095b4" name="gab6921cc71878f289add8101c987095b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab6921cc71878f289add8101c987095b4">&#9670;&#160;</a></span>shift_down()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void shift_down </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Сдвигает фигуру на клетку ниже При столкновении с другими фигурами статус меняется на ATTACHING, иначе - ACTION </p>
+
+</div>
+</div>
+<a id="ga40777c265d8b7f762aa6344e009ce673" name="ga40777c265d8b7f762aa6344e009ce673"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga40777c265d8b7f762aa6344e009ce673">&#9670;&#160;</a></span>shift_left()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void shift_left </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Сдвигает фигуру влево, если нет мешающих элементов </p>
+
+</div>
+</div>
+<a id="ga4d7b3f7cb0fdb739d9624dfd3fdc2398" name="ga4d7b3f7cb0fdb739d9624dfd3fdc2398"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4d7b3f7cb0fdb739d9624dfd3fdc2398">&#9670;&#160;</a></span>shift_right()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void shift_right </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Сдвигает фигуру вправо, если нет мешающих элементов </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>BrickGame: TETRIS: Функции для работы с состояниями игры</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">BrickGame: TETRIS
+   </div>
+   <div id="projectbrief">«Тетрис», наверное, одна из самых популярных игр для консоли Brickgame. Нередко и саму консоль называют тетрисом. Цель игры — в наборе очков за построение линий из генерируемых игрой блоков. Очередной блок, сгенерированный игрой, начинает опускаться вниз по игровому полю, пока не достигнет нижней границы или не столкнется с другим блоком. Пользователь может поворачивать фигуры и перемещать их по горизонтали, стараясь составлять ряды. После заполнения ряд уничтожается, игрок получает очки, а блоки, находящиеся выше заполненного ряда, опускаются вниз. Игра заканчивается, когда очередная фигура останавливается в самом верхнем ряду.</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('group__status.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Функции</a>  </div>
+  <div class="headertitle"><div class="title">Функции для работы с состояниями игры</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Включают инициализацию игры, смену состояний и окончание  
+<a href="#details">Подробнее...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Функции</h2></td></tr>
+<tr class="memitem:ga5f5ccbe5abfdef24c8378dc3cf32ffb3" id="r_ga5f5ccbe5abfdef24c8378dc3cf32ffb3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__status.html#ga5f5ccbe5abfdef24c8378dc3cf32ffb3">game_init</a> ()</td></tr>
+<tr class="separator:ga5f5ccbe5abfdef24c8378dc3cf32ffb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga486d33bd072d399b11f0cf3ae7448e5b" id="r_ga486d33bd072d399b11f0cf3ae7448e5b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__status.html#ga486d33bd072d399b11f0cf3ae7448e5b">game_end</a> ()</td></tr>
+<tr class="separator:ga486d33bd072d399b11f0cf3ae7448e5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga051c28fe4a23e77185fd18b8375dba1b" id="r_ga051c28fe4a23e77185fd18b8375dba1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__status.html#ga051c28fe4a23e77185fd18b8375dba1b">block_spawn</a> ()</td></tr>
+<tr class="separator:ga051c28fe4a23e77185fd18b8375dba1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5f563cf3668555b74cdd949b13a71527" id="r_ga5f563cf3668555b74cdd949b13a71527"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__status.html#ga5f563cf3668555b74cdd949b13a71527">block_moving</a> (<a class="el" href="objects_8h.html#a7ba289d7b97db30e0b7041ca2cef75a9">UserAction_t</a> act)</td></tr>
+<tr class="separator:ga5f563cf3668555b74cdd949b13a71527"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga052ce8c188408c53f8808e6f91125116" id="r_ga052ce8c188408c53f8808e6f91125116"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__status.html#ga052ce8c188408c53f8808e6f91125116">block_attaching</a> ()</td></tr>
+<tr class="separator:ga052ce8c188408c53f8808e6f91125116"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa9f76cc5dead0ec4d3a336562f85f961" id="r_gaa9f76cc5dead0ec4d3a336562f85f961"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__status.html#gaa9f76cc5dead0ec4d3a336562f85f961">check_overflow</a> ()</td></tr>
+<tr class="separator:gaa9f76cc5dead0ec4d3a336562f85f961"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<p>Включают инициализацию игры, смену состояний и окончание </p>
+<h2 class="groupheader">Функции</h2>
+<a id="ga052ce8c188408c53f8808e6f91125116" name="ga052ce8c188408c53f8808e6f91125116"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga052ce8c188408c53f8808e6f91125116">&#9670;&#160;</a></span>block_attaching()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void block_attaching </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Проверка столкновения фигруры с нижней рамкой или блоками на поле Срабатывает при статусе ATTACHING Переводит статус на SPAWN </p>
+
+</div>
+</div>
+<a id="ga5f563cf3668555b74cdd949b13a71527" name="ga5f563cf3668555b74cdd949b13a71527"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5f563cf3668555b74cdd949b13a71527">&#9670;&#160;</a></span>block_moving()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void block_moving </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="objects_8h.html#a7ba289d7b97db30e0b7041ca2cef75a9">UserAction_t</a>&#160;</td>
+          <td class="paramname"><em>act</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Вызыает функции обработки движения в зависимости от выбранного пользователем действия </p><dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">action</td><td>Действие пользователя: вправо, влево, вниз, падение, ротация, простой Срабатывает при статусе ACTION </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga051c28fe4a23e77185fd18b8375dba1b" name="ga051c28fe4a23e77185fd18b8375dba1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga051c28fe4a23e77185fd18b8375dba1b">&#9670;&#160;</a></span>block_spawn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void block_spawn </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Создает матрицы текущего и следующего блоков, заполняет их рандомной фигурой, устанавливает параметры блоков Срабатывает при статусе SPAWN При заполнении первой строки игрового поля переводит состояние на GAMEOVER, иначе - ACTION </p>
+
+</div>
+</div>
+<a id="gaa9f76cc5dead0ec4d3a336562f85f961" name="gaa9f76cc5dead0ec4d3a336562f85f961"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa9f76cc5dead0ec4d3a336562f85f961">&#9670;&#160;</a></span>check_overflow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void check_overflow </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Проверка касания точек столкнувшейся фигуры с верхней строкой игрового поля Переводит статус на SPAWN, если столкновения не было, иначе - GAMEOVER </p>
+
+</div>
+</div>
+<a id="ga486d33bd072d399b11f0cf3ae7448e5b" name="ga486d33bd072d399b11f0cf3ae7448e5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga486d33bd072d399b11f0cf3ae7448e5b">&#9670;&#160;</a></span>game_end()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void game_end </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Уничтожает матрицы игрового поля, текущего и следующего блоков Устанавливает значение поля pause -2 - сигнал завешения работы бекенда Срабатывает при статусе GAMEOVER Устанавливает состояние EXIT_GAME </p>
+
+</div>
+</div>
+<a id="ga5f5ccbe5abfdef24c8378dc3cf32ffb3" name="ga5f5ccbe5abfdef24c8378dc3cf32ffb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5f5ccbe5abfdef24c8378dc3cf32ffb3">&#9670;&#160;</a></span>game_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void game_init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Инициализирует структуру <a class="el" href="structGame__t.html" title="Структура для хранения полной информации об игре. Представлена внутри библиотеки игры статическим объ...">Game_t</a>, создает игровое поле, устанавливает начальные значения игры Срабатывает при статусе START Устанавливает состояние SPAWN Вслучае невыделения памяти под field статус меняется на GAMEOVER </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

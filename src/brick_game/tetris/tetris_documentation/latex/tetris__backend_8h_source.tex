@@ -1,0 +1,193 @@
+\doxysection{tetris\+\_\+backend.\+h}
+\hypertarget{tetris__backend_8h_source}{}\label{tetris__backend_8h_source}\index{brick\_game/tetris/tetris\_backend.h@{brick\_game/tetris/tetris\_backend.h}}
+\mbox{\hyperlink{tetris__backend_8h}{См. документацию.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ TETRIS\_BACK\_H}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ TETRIS\_BACK\_H}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <time.h>}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}../../common\_objects/objects.h"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ TRUE\ 1}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ FALSE\ 0}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ FIELD\_COLS\ 10}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ FIELD\_ROWS\ 20}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ BLOCK\_SIZE\ 4}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ HIGH\_SCORE\_MEM\ "{}highest\_score.txt"{}}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ SPEED\_START\ 3000}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ LEVEL\_MAX\ 2}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ LEVEL\_STEP\ 600}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ COST\_ONE\_LINE\ 100}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ COST\_TWO\_LINE\ 300}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ COST\_THREE\_LINE\ 700}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ COST\_FOUR\_LINE\ 1500}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ FILL\_L(block)\ \(\backslash\)}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\ \ \ \ block[0][1]\ =\ 1;\ \ \(\backslash\)}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\ \ \ \ block[1][1]\ =\ 1;\ \ \(\backslash\)}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\ \ \ \ block[2][1]\ =\ 1;\ \ \(\backslash\)}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\ \ \ \ block[2][2]\ =\ 1;\ \ \(\backslash\)}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\ \ \}}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ FILL\_J(block)\ \(\backslash\)}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\ \ \ \ block[0][1]\ =\ 2;\ \ \(\backslash\)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\ \ \ \ block[1][1]\ =\ 2;\ \ \(\backslash\)}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\ \ \ \ block[2][1]\ =\ 2;\ \ \(\backslash\)}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\ \ \ \ block[2][0]\ =\ 2;\ \ \(\backslash\)}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\ \ \}}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ FILL\_S(block)\ \(\backslash\)}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\ \ \ \ block[1][1]\ =\ 3;\ \ \(\backslash\)}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\ \ \ \ block[1][2]\ =\ 3;\ \ \(\backslash\)}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\ \ \ \ block[2][1]\ =\ 3;\ \ \(\backslash\)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\ \ \ \ block[2][0]\ =\ 3;\ \ \(\backslash\)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\ \ \}}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ FILL\_Z(block)\ \(\backslash\)}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\ \ \ \ block[1][0]\ =\ 4;\ \ \(\backslash\)}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\ \ \ \ block[1][1]\ =\ 4;\ \ \(\backslash\)}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\ \ \ \ block[2][1]\ =\ 4;\ \ \(\backslash\)}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\ \ \ \ block[2][2]\ =\ 4;\ \ \(\backslash\)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \}}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ FILL\_I(block)\ \(\backslash\)}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\ \ \ \ block[1][0]\ =\ 5;\ \ \(\backslash\)}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ block[1][1]\ =\ 5;\ \ \(\backslash\)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\ \ \ \ block[1][2]\ =\ 5;\ \ \(\backslash\)}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\ \ \ \ block[1][3]\ =\ 5;\ \ \(\backslash\)}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\ \ \}}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ FILL\_T(block)\ \(\backslash\)}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\ \ \ \ block[1][0]\ =\ 6;\ \ \(\backslash\)}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\ \ \ \ block[1][1]\ =\ 6;\ \ \(\backslash\)}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\ \ \ \ block[1][2]\ =\ 6;\ \ \(\backslash\)}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\ \ \ \ block[0][1]\ =\ 6;\ \ \(\backslash\)}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\ \ \}}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ FILL\_O(block)\ \(\backslash\)}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\ \ \ \ block[1][1]\ =\ 7;\ \ \(\backslash\)}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\ \ \ \ block[1][2]\ =\ 7;\ \ \(\backslash\)}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\ \ \ \ block[2][1]\ =\ 7;\ \ \(\backslash\)}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\ \ \ \ block[2][2]\ =\ 7;\ \ \(\backslash\)}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\ \ \}}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00092\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00093\ \ \ START\ =\ 0,}
+\DoxyCodeLine{00094\ \ \ SPAWN,}
+\DoxyCodeLine{00095\ \ \ ACTION,}
+\DoxyCodeLine{00096\ \ \ SHIFTING,}
+\DoxyCodeLine{00097\ \ \ ATTACHING,}
+\DoxyCodeLine{00098\ \ \ GAMEOVER,}
+\DoxyCodeLine{00099\ \ \ EXIT\_STATE}
+\DoxyCodeLine{00100\ \}\ \mbox{\hyperlink{tetris__backend_8h_ae2946618e700f814e6147195c808f4c8}{State\_t}};}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00106\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00107\ \ \ \mbox{\hyperlink{tetris__backend_8h_ae2946618e700f814e6147195c808f4c8}{State\_t}}\ status;}
+\DoxyCodeLine{00108\ \ \ \textcolor{keywordtype}{int}\ pause;}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \textcolor{keywordtype}{int}\ **field;}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \textcolor{keywordtype}{int}\ next\_name;}
+\DoxyCodeLine{00113\ \ \ \textcolor{keywordtype}{int}\ **next;}
+\DoxyCodeLine{00114\ \ \ \textcolor{keywordtype}{int}\ block\_name;}
+\DoxyCodeLine{00115\ \ \ \textcolor{keywordtype}{int}\ **block;}
+\DoxyCodeLine{00116\ \ \ \textcolor{keywordtype}{int}\ block\_x;}
+\DoxyCodeLine{00117\ \ \ \textcolor{keywordtype}{int}\ block\_y;}
+\DoxyCodeLine{00118\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__move_ga15a76598a144447da51866d50bf65d58}{rotate}};}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \textcolor{keywordtype}{int}\ score;}
+\DoxyCodeLine{00121\ \ \ \textcolor{keywordtype}{int}\ high\_score;}
+\DoxyCodeLine{00122\ \ \ \textcolor{keywordtype}{int}\ level;}
+\DoxyCodeLine{00123\ \ \ \textcolor{keywordtype}{int}\ speed;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ start\_time;}
+\DoxyCodeLine{00126\ \}\ \mbox{\hyperlink{structGame__t}{Game\_t}};}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00129\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00130\ \ \ FIG\_J\ =\ 0,}
+\DoxyCodeLine{00131\ \ \ FIG\_L,}
+\DoxyCodeLine{00132\ \ \ FIG\_O,}
+\DoxyCodeLine{00133\ \ \ FIG\_I,}
+\DoxyCodeLine{00134\ \ \ FIG\_Z,}
+\DoxyCodeLine{00135\ \ \ FIG\_S,}
+\DoxyCodeLine{00136\ \ \ FIG\_T}
+\DoxyCodeLine{00137\ \}\ \mbox{\hyperlink{tetris__backend_8h_a2a3868a8bbeb170ca0c52358bfd36115}{Block\_name\_t}};}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00151\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__main_gaaf4762beee0bc3e86b1f0ee7ccbd9b54}{userInput}}(\mbox{\hyperlink{objects_8h_a7ba289d7b97db30e0b7041ca2cef75a9}{UserAction\_t}}\ action,\ \textcolor{keywordtype}{int}\ hold);}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00159\ \mbox{\hyperlink{structGameInfo__t}{GameInfo\_t}}\ \mbox{\hyperlink{group__main_gafd5762991a9248a0b4192983fd786a8f}{updateCurrentState}}();}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00172\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__score_ga93e3589c5a858554e1e4a8f3536ef862}{get\_hight\_score}}();}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00179\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__score_ga6e30103dc7de54d94f4384a8e267e55b}{set\_hight\_score}}();}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00186\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__score_gafcfc178a6009d1abef28374f9f2ba685}{update\_score}}(\textcolor{keywordtype}{int}\ count);}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00193\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__score_ga65d696c970e3074a3b07780b1cedc407}{update\_level}}();}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00207\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__status_ga5f5ccbe5abfdef24c8378dc3cf32ffb3}{game\_init}}();}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00216\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__status_ga486d33bd072d399b11f0cf3ae7448e5b}{game\_end}}();}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00224\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__status_ga051c28fe4a23e77185fd18b8375dba1b}{block\_spawn}}();}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00232\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__status_ga5f563cf3668555b74cdd949b13a71527}{block\_moving}}(\mbox{\hyperlink{objects_8h_a7ba289d7b97db30e0b7041ca2cef75a9}{UserAction\_t}}\ act);}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00240\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__status_ga052ce8c188408c53f8808e6f91125116}{block\_attaching}}();}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00247\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__status_gaa9f76cc5dead0ec4d3a336562f85f961}{check\_overflow}}();}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00261\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__move_ga6bb46547a6e0d03100d240a87482645a}{check\_time}}();}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00267\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{group__move_ga15b2616e5358f18a1f36b9d7e54e73c1}{get\_time}}();}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00273\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__move_ga40777c265d8b7f762aa6344e009ce673}{shift\_left}}();}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00279\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__move_ga4d7b3f7cb0fdb739d9624dfd3fdc2398}{shift\_right}}();}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00285\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__move_ga5e3d4dee0e4f08c843069be0c5a83b76}{fall\_down}}();}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00292\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__move_gab6921cc71878f289add8101c987095b4}{shift\_down}}();}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00298\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__move_ga15a76598a144447da51866d50bf65d58}{rotate}}();}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00305\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__move_gaaae7fce478ff0e849a971455f152fe03}{check\_attached}}();}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00311\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__move_ga5958bfd09ff1ae8f33274729a7ea3885}{rotation\_prepare}}(\textcolor{keywordtype}{int}\ *is\_shift\_right,\ \textcolor{keywordtype}{int}\ *is\_shift\_left);}
+\DoxyCodeLine{00312\ }
+\DoxyCodeLine{00325\ \textcolor{keywordtype}{int}\ **\mbox{\hyperlink{group__matrix_gae524c14ca2862ebb4d57aa3e2ff2be20}{create\_matrix}}(\textcolor{keywordtype}{int}\ rows,\ \textcolor{keywordtype}{int}\ cols);}
+\DoxyCodeLine{00326\ }
+\DoxyCodeLine{00333\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__matrix_ga50b49417e16d8fd34a028a9792fb495f}{remove\_matrix}}(\textcolor{keywordtype}{int}\ **matrix,\ \textcolor{keywordtype}{int}\ rows);}
+\DoxyCodeLine{00334\ }
+\DoxyCodeLine{00340\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{group__matrix_ga3124a261279492c7f65bf7c0402cc0e5}{check\_row}}();}
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00347\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__matrix_gaa3ab7f451b7b6742e2b3a7d682fb7f0b}{delete\_row}}(\textcolor{keywordtype}{int}\ row);}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00355\ \textcolor{keywordtype}{int}\ **\mbox{\hyperlink{group__matrix_ga400e763e1251856b18ea51a88aa0e5a3}{copy\_matrix}}(\textcolor{keywordtype}{int}\ **src,\ \textcolor{keywordtype}{int}\ size);}
+\DoxyCodeLine{00356\ }
+\DoxyCodeLine{00361\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__matrix_gad4fb051e8210a2a50e19227fc827a605}{rotate\_matrix}}();}
+\DoxyCodeLine{00362\ }
+\DoxyCodeLine{00367\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__matrix_gad3a15bd7259432e8be04f1e272e861c5}{pin\_block}}();}
+\DoxyCodeLine{00368\ }
+\DoxyCodeLine{00373\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__matrix_gab1c8ccb63c78940ef2b01ddcf5a4e247}{unpin\_block}}();}
+\DoxyCodeLine{00374\ }
+\DoxyCodeLine{00381\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group__matrix_ga25b53135f7f2eebedd16610c6ebace13}{fill\_block}}(\textcolor{keywordtype}{int}\ **block,\ \textcolor{keywordtype}{int}\ name);}
+\DoxyCodeLine{00382\ }
+\DoxyCodeLine{00392\ \mbox{\hyperlink{structGame__t}{Game\_t}}\ *\mbox{\hyperlink{group__test_gad8db101c868cf67225d9890664107b14}{game\_data}}();}
+\DoxyCodeLine{00393\ }
+\DoxyCodeLine{00394\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
