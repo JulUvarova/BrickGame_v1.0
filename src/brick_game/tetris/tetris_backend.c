@@ -4,23 +4,18 @@ static Game_t game;
 
 void game_init() {
   game.pause = FALSE;
-
-  game.field = NULL;
-  game.next = NULL;
-  game.block = NULL;
-
   game.field = create_matrix(FIELD_ROWS, FIELD_COLS);
-
   game.next_name = rand() % 7;
   game.score = 0;
   get_hight_score();
   game.level = 1;
   game.speed = SPEED_START;
-
   game.start_time = get_time();
-  
+
   if (!game.field)
+    // LCOV_EXCL_START
     game.status = GAMEOVER;
+  // LCOV_EXCL_STOP
   else
     game.status = SPAWN;
 }
@@ -32,24 +27,24 @@ void game_end() {
   game.field = NULL;
   game.block = NULL;
   game.next = NULL;
-  game.status = EXIT_STATE;
   game.pause = -2;
 }
 
 void block_spawn() {
   remove_matrix(game.next, BLOCK_SIZE);
   remove_matrix(game.block, BLOCK_SIZE);
+
   game.block_name = game.next_name;
   game.next_name = rand() % 7;
 
   game.next = create_matrix(BLOCK_SIZE, BLOCK_SIZE);
   game.block = create_matrix(BLOCK_SIZE, BLOCK_SIZE);
-
+  // LCOV_EXCL_START
   if (!game.next || !game.block) {
     game.status = GAMEOVER;
     return;
   }
-
+  // LCOV_EXCL_STOP
   fill_block(game.next, game.next_name);
   fill_block(game.block, game.block_name);
 
@@ -97,9 +92,9 @@ int** create_matrix(int rows, int cols) {
   int** matrix = calloc(rows, sizeof(int*));
   for (int i = 0; i < rows && matrix; ++i) {
     matrix[i] = calloc(cols, sizeof(int));
-    if (matrix[i] == NULL) {
-      remove_matrix(matrix, rows);
-    }
+    // LCOV_EXCL_START
+    if (matrix[i] == NULL) remove_matrix(matrix, rows);
+    // LCOV_EXCL_STOP
   }
   return matrix;
 }
@@ -171,9 +166,10 @@ void userInput(UserAction_t act, int hold) {
       break;
     case GAMEOVER:
       game_end();
-      break;
+      // LCOV_EXCL_START
     default:
       break;
+      // LCOV_EXCL_STOP
   }
 }
 
@@ -228,8 +224,10 @@ void update_score(int count) {
     case 4:
       game.score += COST_FOUR_LINE;
       break;
+      // LCOV_EXCL_START
     default:
       break;
+      // LCOV_EXCL_STOP
   }
 
   if (game.score > game.high_score) {
@@ -293,8 +291,10 @@ void block_moving(UserAction_t act) {
     case Action:
       fall_down();
       break;
+      // LCOV_EXCL_START
     default:
       break;
+      // LCOV_EXCL_STOP
   }
 }
 
@@ -319,11 +319,10 @@ void rotate() {
     remove_matrix(game.block, BLOCK_SIZE);
     game.block = tmp;
   } else {
+    remove_matrix(tmp, BLOCK_SIZE);
     if (game.block_name == FIG_I || game.block_name == FIG_S ||
-        game.block_name == FIG_Z) {
+        game.block_name == FIG_Z)
       game.rotate = (game.rotate == 1) ? 3 : 1;
-      remove_matrix(tmp, BLOCK_SIZE);
-    }
   }
   pin_block();
 

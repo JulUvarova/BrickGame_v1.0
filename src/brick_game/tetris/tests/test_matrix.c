@@ -2,6 +2,20 @@
 
 #include "test.h"
 
+START_TEST(check_and_delete_rows) {
+  game_init();
+  Game_t *game = game_data();
+
+  for (int i = 0; i < 4; ++i) {
+    for (int j = 0; j < FIELD_COLS; ++j) game->field[i][j] = 1;
+  }
+
+  int res = check_row();
+  
+  ck_assert(res == 4);
+  game_end();
+}
+
 START_TEST(fill_block_J) {
   game_init();
   Game_t *game = game_data();
@@ -147,6 +161,7 @@ Suite *matrix_works_suite(void) {
   tcase_add_test(tc, fill_block_Z);
   tcase_add_test(tc, fill_block_S);
   tcase_add_test(tc, fill_block_T);
+  tcase_add_test(tc, check_and_delete_rows);
 
   suite_add_tcase(s, tc);
   return s;

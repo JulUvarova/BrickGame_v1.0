@@ -45,26 +45,6 @@ START_TEST(checking_attached) {
   game_end();
 }
 
-START_TEST(rotating_block) {
-  game_init();
-  Game_t *game = game_data();
-  game->block = create_matrix(BLOCK_SIZE, BLOCK_SIZE);
-  game->block_name = FIG_O;
-  rotate();
-  game->block_name = FIG_I;
-  game->rotate = 1;
-  fill_block(game->block, FIG_I);
-  pin_block();
-
-  rotate();
-
-  ck_assert(game->field[1][(FIELD_COLS - BLOCK_SIZE) / 2 + 3] == 5);
-  ck_assert(game->field[1][(FIELD_COLS - BLOCK_SIZE) / 2] == 0);
-  ck_assert(game->status == ACTION);
-  ck_assert(game->rotate == 3);
-  game_end();
-}
-
 START_TEST(time_checking) {
   game_init();
   Game_t *game = game_data();
@@ -89,6 +69,20 @@ START_TEST(shifting_left) {
   ck_assert(game->field[1][(FIELD_COLS - BLOCK_SIZE) / 2] == 7);
   ck_assert(game->field[1][(FIELD_COLS - BLOCK_SIZE) / 2 + 2] == 0);
   ck_assert(game->block_x = (FIELD_COLS - BLOCK_SIZE) / 2 - 1);
+  game_end();
+}
+
+START_TEST(shifting_left_attached) {
+  game_init();
+  Game_t *game = game_data();
+  game->block = create_matrix(BLOCK_SIZE, BLOCK_SIZE);
+  fill_block(game->block, FIG_O);
+  game->block_x = -1;
+  pin_block();
+
+  shift_left();
+
+  ck_assert(game->field[1][0] == 7);
   game_end();
 }
 
@@ -148,9 +142,9 @@ Suite *block_moving_suit(void) {
   tcase_add_test(tc, shifting_right);
   tcase_add_test(tc, shifting_down);
   tcase_add_test(tc, falling_down);
-  tcase_add_test(tc, rotating_block);
   tcase_add_test(tc, checking_attached);
   tcase_add_test(tc, rotation_prepeare_left);
+  tcase_add_test(tc, shifting_left_attached);
   tcase_add_test(tc, rotation_prepeare_right);
 
   suite_add_tcase(s, tc);

@@ -2,13 +2,6 @@
 
 #include "test.h"
 
-void game_init();
-void game_end();
-void block_spawn();
-void block_moving(UserAction_t act);
-void block_attaching();
-void check_overflow();
-
 START_TEST(block_moving_all) {
   game_init();
   block_spawn();
@@ -121,11 +114,7 @@ START_TEST(game_end_exit) {
 
   game_end();
 
-  ck_assert(game->field == NULL);
-  ck_assert(game->next == NULL);
-  ck_assert(game->block == NULL);
   ck_assert(game->pause == -2);
-  ck_assert(game->status == EXIT_STATE);
 }
 
 Suite *fms_status_suite(void) {

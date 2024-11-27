@@ -7,6 +7,7 @@ int main(void) {
   number_failed += test_status();
   number_failed += test_matrix();
   number_failed += test_block_moving();
+  number_failed += test_spec_func();
 
   printf("====================\n\n");
   printf("Total errors: %d\n\n", number_failed);

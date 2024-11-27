@@ -47,6 +47,7 @@ clean:
 	rm -f {.,brick_game/tetris, gui/cli, brick_game/tetris/tests}/*.o 
 	rm -f brick_game/tetris/tests/*.gcda 
 	rm -f brick_game/tetris/tests/*.gcno
+	rm -f brick_game/tetris/tests/*.txt
 	rm -f ./*.gcno
 	rm -f ./*.gcda
 	rm -rf report
