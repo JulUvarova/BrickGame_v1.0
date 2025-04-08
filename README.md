@@ -1,26 +1,15 @@
-<a id="readme-top"></a>
+# BrickGame 1.0
 
-<br />
-<details>
-  <summary><strong>Table of Contents</strong></summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">О проекте</a>
-      <ul>
-        <li><a href="#built-with">Инструменты разработки</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Установка</a>
-      <ul>
-        <li><a href="#required-software">Предустановка</a></li>
-        <li><a href="#installation">Таргеты</a></li>
-      </ul>
-    </li>
-    <li><a href="#contact">Контакты автора</a></li>
-  </ol>
-</details>
+## Оглавление
 
+- [О проекте](#о-проекте)
+  - [Тетрис](#тетрис)
+- [Установка](#установка)
+  - [Предустановка](#предустановка)
+  - [Таргеты](#таргеты)
+- [Контакты автора](#контакты-автора)
+
+---
 
 ## О проекте
 
